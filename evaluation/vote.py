@@ -1,7 +1,7 @@
 """Voting over one model's runs: an article is a violation when at least k runs say so.
 
 The runs are the (task, prompt) pairs of evaluation/compare.py binary_rows()
-(LLM results YES/NO, rule detection ≥1 rule, highlights ≥1 highlight). Only
+(binary detection YES/NO, rule detection ≥1 rule, span detection ≥1 highlight). Only
 articles every selected run answered are scored.
 """
 

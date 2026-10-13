@@ -45,9 +45,11 @@ One row per (article, experiment, model). A re-run overwrites that row. `results
 
 | Table              | Task                                | Main columns                                                                                  |
 | ------------------ | ----------------------------------- | --------------------------------------------------------------------------------------------- |
-| `llm_predictions`  | Violated? (`binary_detection/`)     | `answer` (YES / NO / ERROR), `confidence` = P(YES), `details` (per-rule verdicts and evidence) |
+| `llm_predictions`  | Binary detection (`binary_detection/`) | `answer` (YES / NO / ERROR), `confidence` = P(YES), `details` (per-rule verdicts and evidence) |
 | `rule_predictions` | Rule detection (`rule_detection/`)  | `rules` = `[{rule_id, verdict, evidence, explanation, p}]`, `rule_ids`                        |
-| `span_predictions` | Highlights (`span_detection/`, `two_step/`) | `spans` = `[{rule_id, excerpt, explanation, offsets, heading_offsets, p}]`, `n_spans`, `n_located` |
+| `span_predictions` | Span detection (`span_detection/`, `two_step/`) | `spans` = `[{rule_id, excerpt, explanation, offsets, heading_offsets, p}]`, `n_spans`, `n_located` |
+
+`llm_predictions` keeps its original name; it holds the binary detection results.
 
 **Columns in all three:** `article_id`, `experiment`, `provider` (`openai` / `gemini` / `sinllama`), `model`, `expected` (YES / NO from the status), `article_status`, `raw_output`, `error` and `created_at`.
 

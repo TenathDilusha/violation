@@ -6,10 +6,12 @@ Checks Sinhala and English news articles against the Editors' Guild of Sri Lanka
 - Which rules does it break?
 - Which words break them?
 
-Three models were tested (gpt-4.1, Gemini 3.5 Flash, SinLlama 8B), each in **9 ways** (3 tasks × 3 prompt styles). Best result: F2 90 (precision 86, recall 91) on 106 articles.
+Three models were tested (gpt-4.1, Gemini 3.5 Flash, SinLlama 8B), each with **9 methods** (3 tasks × 3 prompts). Best result: F2 90 (precision 86, recall 91) on 106 articles.
 
-- Slides: `[presentation/violations_presentation.pdf](presentation/violations_presentation.pdf)`
-- Database tables: `[DATABASE.md](DATABASE.md)`
+- Slides: [presentation/violations_presentation.pdf](presentation/violations_presentation.pdf)
+- Database tables: [DATABASE.md](DATABASE.md)
+- Evaluation: [evaluation/README.md](evaluation/README.md)
+- Exported results: [results/README.md](results/README.md)
 
 
 
@@ -21,23 +23,25 @@ Three models were tested (gpt-4.1, Gemini 3.5 Flash, SinLlama 8B), each in **9 w
 ├── results/                # exported answers and scores (see results/README.md)
 ├── app.py                  # web viewer of the results (http://127.0.0.1:5002)
 ├── db.py                   # database access
-├── run_all.sh              # run the 9 ways for one model
+├── run_all.sh              # run the 9 methods for one model
 ├── run_missing.sh          # run every method on articles that have no answer yet
 ├── code_of_conduct/        # the 17 rules as JSON (English and Sinhala)
-├── binary_detection/       # task 1: violation? YES / NO
-├── rule_detection/         # task 2: which rules are broken
-├── span_detection/         # task 3: highlight the words that break a rule
+├── binary_detection/       # task 1, binary detection: is it a violation? YES / NO
+├── rule_detection/         # task 2, rule detection: which rules are broken
+├── span_detection/         # task 3, span detection: highlight the words that break a rule
 ├── two_step/               # two calls per article (rules, then words; or words, then rules)
 ├── evaluation/             # metrics, intervals, voting, confidence scores (see evaluation/README.md)
 ├── templates/              # HTML of the viewer
 └── presentation/           # slides
 ```
 
-Each task folder has the same layout:
+Each task folder contains:
 
 - `prompts/`: one module per prompt;
 - `run_openai.py`, `run_gemini.py`, `run_sinllama.py`;
 - `common.py`: the shared runner.
+
+Extra files: `binary_detection/` also has `metrics.py` (used by `evaluation/`) and `sinllama.py` (the SinLlama loader used by all three tasks). `span_detection/` also has `locate.py`, which finds the highlighted words in the text, and `review.py` with `reviewed_suggestions.json`, the reviewed correct highlights.
 
 Results are stored in the database. Each new run also leaves a local copy in `<task>/outputs/`, which is not committed.
 
@@ -74,25 +78,25 @@ Nothing needs to be rebuilt. To view or score the existing results, go to Step 5
 - **Columns:** `article_id`, `heading`, `content`, `lang` (`en` / `si`) and `status`.
 - **Optional:** add their correct rules and words to `violations.manual_annotations`.
 
-See `[DATABASE.md](DATABASE.md)` for the table details. Runners skip articles that already have an answer, so only the new ones are run.
+See [DATABASE.md](DATABASE.md) for the table details. Runners skip articles that already have an answer, so only the new ones are run.
 
 New clean articles are used only if they fall within the first N per language taken by `--negatives N`. To include them, raise N.
 
 **To use other rules,** edit `code_of_conduct/code_of_conduct.json`.
 
-## Step 3: Run the 9 ways
+## Step 3: Run the 9 methods
 
 **The three tasks:**
 
 
-| Task           | Folder              | The model returns                   | Counts as a violation when      |
-| -------------- | ------------------- | ----------------------------------- | ------------------------------- |
-| Violated?      | `binary_detection/` | `YES` / `NO`                        | it says YES                     |
-| Rule detection | `rule_detection/`   | broken rule ids + evidence          | it names at least one rule      |
-| Highlights     | `span_detection/`   | rule id + the exact offending words | the words are found in the text |
+| Task             | Folder              | The model returns                   | Counts as a violation when      |
+| ---------------- | ------------------- | ----------------------------------- | ------------------------------- |
+| Binary detection | `binary_detection/` | `YES` / `NO`                        | it says YES                     |
+| Rule detection   | `rule_detection/`   | broken rule ids + evidence          | it names at least one rule      |
+| Span detection   | `span_detection/`   | rule id + the exact offending words | the words are found in the text |
 
 
-**The three prompt styles:**
+**The three prompts:**
 
 
 | Prompt      | What the prompt holds                                       |
@@ -105,17 +109,17 @@ New clean articles are used only if they fall within the first N per language ta
 **Commands** (gpt-4.1):
 
 
-| #   | Way                        | Command                                                                             |
-| --- | -------------------------- | ----------------------------------------------------------------------------------- |
-| 1   | Violated? · zero-shot      | `.venv/bin/python binary_detection/run_openai.py --prompt zero_shot --negatives 30` |
-| 2   | Violated? · few-shot       | `.venv/bin/python binary_detection/run_openai.py --prompt few_shot --negatives 30`  |
-| 3   | Violated? · per-rule       | `.venv/bin/python binary_detection/run_openai.py --prompt per_rule --negatives 30`  |
-| 4   | Rule detection · zero-shot | `.venv/bin/python rule_detection/run_openai.py --prompt zero_shot --negatives 30`   |
-| 5   | Rule detection · few-shot  | `.venv/bin/python rule_detection/run_openai.py --prompt few_shot --negatives 30`    |
-| 6   | Rule detection · per-rule  | `.venv/bin/python rule_detection/run_openai.py --prompt per_rule --negatives 30`    |
-| 7   | Highlights · zero-shot     | `.venv/bin/python span_detection/run_openai.py --prompt zero_shot --negatives 30`   |
-| 8   | Highlights · few-shot      | `.venv/bin/python span_detection/run_openai.py --prompt few_shot --negatives 30`    |
-| 9   | Highlights · per-rule      | `.venv/bin/python span_detection/run_openai.py --prompt per_rule --negatives 30`    |
+| #   | Method                       | Command                                                                             |
+| --- | ---------------------------- | ----------------------------------------------------------------------------------- |
+| 1   | Binary detection · zero-shot | `.venv/bin/python binary_detection/run_openai.py --prompt zero_shot --negatives 30` |
+| 2   | Binary detection · few-shot  | `.venv/bin/python binary_detection/run_openai.py --prompt few_shot --negatives 30`  |
+| 3   | Binary detection · per-rule  | `.venv/bin/python binary_detection/run_openai.py --prompt per_rule --negatives 30`  |
+| 4   | Rule detection · zero-shot   | `.venv/bin/python rule_detection/run_openai.py --prompt zero_shot --negatives 30`   |
+| 5   | Rule detection · few-shot    | `.venv/bin/python rule_detection/run_openai.py --prompt few_shot --negatives 30`    |
+| 6   | Rule detection · per-rule    | `.venv/bin/python rule_detection/run_openai.py --prompt per_rule --negatives 30`    |
+| 7   | Span detection · zero-shot   | `.venv/bin/python span_detection/run_openai.py --prompt zero_shot --negatives 30`   |
+| 8   | Span detection · few-shot    | `.venv/bin/python span_detection/run_openai.py --prompt few_shot --negatives 30`    |
+| 9   | Span detection · per-rule    | `.venv/bin/python span_detection/run_openai.py --prompt per_rule --negatives 30`    |
 
 
 **Other models:**
@@ -123,13 +127,15 @@ New clean articles are used only if they fall within the first N per language ta
 - **Gemini:** use `run_gemini.py`.
 - **SinLlama:** use `run_sinllama.py`, run with a Python that has `torch`. It runs on Sinhala articles only.
 
-**All 9 at once, 3 times each** (the results use the mean of 3 runs):
+**All 9 methods at once:**
 
 ```bash
-./run_all.sh openai --force                
-./run_all.sh gemini --force  
-./run_all.sh sinllama --force  
+./run_all.sh openai --force
+./run_all.sh gemini --force
+./run_all.sh sinllama --force
 ```
+
+`--force` re-runs every article and overwrites the stored run 1 answers. The reported results are the mean of 3 runs; runs 2 and 3 use `--repeat 2` and `--repeat 3`.
 
 **Options** (every runner):
 
@@ -137,7 +143,7 @@ New clean articles are used only if they fall within the first N per language ta
 | Option           | Meaning                                            |
 | ---------------- | -------------------------------------------------- |
 | `--negatives N`  | Add the first N clean articles per language        |
-| `--lang en       | si`                                                |
+| `--lang LANG`    | Only one language: `en` or `si`                    |
 | `--repeat N`     | Store the run as repeat N                          |
 | `--code-lang si` | Use the Sinhala code of conduct (with `--lang si`) |
 | `--model NAME`   | Another model of the same provider                 |
@@ -175,9 +181,9 @@ Voting and the confidence scores need no new runs: they are computed from the st
 
 | Page            | Shows                                                                   |
 | --------------- | ----------------------------------------------------------------------- |
-| `/overview`     | The whole project step by step, the top 4 approaches, and a leaderboard |
+| `/overview`     | The whole project step by step, the top 4 methods, and a leaderboard    |
 | `/compare`      | Every model × task × prompt, per language, with per-article answers     |
-| `/best-model`   | The best approach with 95% intervals                                    |
+| `/best-model`   | The best method with 95% intervals                                      |
 | `/article/<id>` | One article with every run's answer and highlighted evidence            |
 
 
@@ -185,17 +191,17 @@ Voting and the confidence scores need no new runs: they are computed from the st
 
 - **Main score:** F2, which counts recall twice as much as precision, because missing a violation is worse than a false alarm.
 - **Other metrics:** precision, recall, F1 and accuracy.
-- **Same articles:** every approach is scored on the same articles, and each number is the mean of 3 runs.
+- **Same articles:** every method is scored on the same articles, and each number is the mean of 3 runs.
 - **95% intervals:** bootstrap over articles.
 - **Confidence scores:** P(YES), the share of runs that flag an article, and similar. The threshold is chosen leave-one-out.
-- **Rules and highlights:** checked against `manual_annotations`.
+- **Rule and span detection:** the named rules and highlighted words are also checked against `manual_annotations`.
 
 
 
 ## Results
 
 
-| Language | Best of the 9 ways (gpt-4.1)    | Best overall                                   |
+| Language | Best of the 9 methods (gpt-4.1) | Best overall                                   |
 | -------- | ------------------------------- | ---------------------------------------------- |
 | English  | Rule detection few-shot, F2 89  | Share of all 27 runs that flag, F2 92          |
 | Sinhala  | Rule detection zero-shot, F2 86 | Mix of the 27-run share and mean P(YES), F2 90 |

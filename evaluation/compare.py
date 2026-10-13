@@ -1,8 +1,8 @@
 """Compare every model × prompt across the three tasks as violation / no-violation classifiers.
 
-- LLM results (violations.llm_predictions): the YES/NO answer.
+- Binary detection (violations.llm_predictions): the YES/NO answer.
 - Rule detection (violations.rule_predictions): YES when at least one rule is named.
-- Highlights (violations.span_predictions): YES when at least one highlight was found
+- Span detection (violations.span_predictions): YES when at least one highlight was found
   in the article text or heading.
 
 Every task is scored against the article's review status on the same articles:
@@ -25,9 +25,9 @@ REPEAT = re.compile(r"^(?P<prompt>.+)\.r(?P<n>\d+)$")
 MEAN_KEYS = ("tp", "fp", "tn", "fn", "errors", "answered", "accuracy", "precision", "recall", "f1", "f2")
 
 TASKS = [
-    ("llm", "LLM results (YES/NO)"),
+    ("llm", "Binary detection (YES/NO)"),
     ("rule", "Rule detection (≥1 rule)"),
-    ("span", "Highlights (≥1 highlight)"),
+    ("span", "Span detection (≥1 highlight)"),
 ]
 EXPERIMENTS = ["zero_shot", "zero_shot_v3", "zero_shot_si_code", "few_shot", "few_shot_si_code", "per_rule", "per_rule_si_code"]
 PROVIDER_ORDER = ["openai", "gemini", "sinllama"]

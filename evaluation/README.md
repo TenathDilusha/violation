@@ -49,16 +49,16 @@ Instead of a single YES / NO, each article gets a number, and the article is a v
 | Kind        | Examples                                                               |
 | ----------- | ---------------------------------------------------------------------- |
 | Agreement   | Share of a prompt's 3 runs that flag the article; share of all 9 or 27 runs |
-| Probability | P(YES) of the YES/NO prompts; highest per-rule P(VIOLATION)           |
+| Probability | P(YES) of the binary detection prompts; highest per-rule P(VIOLATION) |
 | Count       | Number of rules named or passages highlighted                          |
 | Combined    | Averages of the above, also across the 3 tasks                         |
 
 **Best scores** (gpt-4.1, 106 articles):
 
-| Score                                  | F2 | Precision | Recall |
-| -------------------------------------- | -- | --------- | ------ |
-| Share of all 27 runs that flag         | 90 | 86        | 91     |
-| Mean P(YES) of the 3 YES/NO prompts    | 90 | 91        | 89     |
+| Score                                         | F2 | Precision | Recall |
+| --------------------------------------------- | -- | --------- | ------ |
+| Share of all 27 runs that flag                | 90 | 86        | 91     |
+| Mean P(YES) of the 3 binary detection prompts | 90 | 91        | 89     |
 
 ## How to run
 

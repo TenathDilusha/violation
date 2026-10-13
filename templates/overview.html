@@ -122,9 +122,9 @@
   <h2><span class="ov-step">4</span>Three ways to ask, three prompt styles</h2>
   <p class="muted">Every task is also scored as a yes/no detector: an article counts as "violation" if the model says YES, names a rule or highlights something.</p>
   <div class="ov-cards">
-    <div><h3>Violated?</h3>The model answers one word.<br><code>YES</code> / <code>NO</code></div>
+    <div><h3>Binary detection</h3>The model answers one word.<br><code>YES</code> / <code>NO</code></div>
     <div><h3>Rule detection</h3>The model lists the broken rules.<br><code>["2.2.a", "6.4.ii"]</code></div>
-    <div><h3>Highlights</h3>The model copies the exact words and names the rule; I find them in the article.<br><code>{"rule": "2.5", "excerpt": "…"}</code></div>
+    <div><h3>Span detection</h3>The model copies the exact words and names the rule; I find them in the article.<br><code>{"rule": "2.5", "excerpt": "…"}</code></div>
   </div>
   <div class="ov-cards">
     <div><h3>Zero-shot</h3>Just the code and the article.</div>

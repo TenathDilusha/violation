@@ -237,7 +237,7 @@ def compare_tasks():
     )
 
 
-BEST_TASK, BEST_EXPERIMENT, BEST_MODEL = "Highlights", "few_shot", "gpt-4.1"
+BEST_EXPERIMENT, BEST_MODEL = "few_shot", "gpt-4.1"
 OUTCOMES = {
     "caught": "Caught",
     "missed": "Missed",
@@ -411,7 +411,7 @@ def _two_step_score(rows: list[dict], correct: dict[str, set]) -> dict:
     }
 
 
-OVERVIEW_TASKS = {"llm": "Violated? (YES/NO)", "rule": "Rule detection", "span": "Highlights"}
+OVERVIEW_TASKS = {"llm": "Binary detection (YES/NO)", "rule": "Rule detection", "span": "Span detection"}
 OVERVIEW_PROMPTS = {"zero_shot": "Zero-shot", "few_shot": "Few-shot", "per_rule": "Per-rule"}
 
 
