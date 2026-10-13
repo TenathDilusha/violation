@@ -1,0 +1,112 @@
+{
+  "metadata": {
+    "title": "Code of Professional Practice (Code of Ethics) of The Editors' Guild of Sri Lanka",
+    "adopted_by": "Press Complaints Commission of Sri Lanka (PCCSL)",
+    "revised": "2016",
+    "scope": "Only rules that can be judged from the article text are included. Rules needing fact-checking, web search, images or newsroom information are excluded."
+  },
+  "label_scheme": {
+    "VIOLATION": "The article contains sufficient evidence that the rule has been breached and no listed exception applies.",
+    "NO_VIOLATION": "Everything else: the rule does not apply, an exception applies, or the article's own text does not show the breach."
+  },
+  "definitions": {
+    "PUBLIC_INTEREST": {
+      "core": [
+        "protecting democracy, good governance, freedom of expression and human rights",
+        "keeping the people informed of the actions of their elected representatives and government"
+      ],
+      "includes": [
+        "detecting or exposing crime or the threat of crime",
+        "disclosing a person or organisation's failure or likely failure to comply with any legal obligation",
+        "disclosing a miscarriage of justice",
+        "raising or contributing to an important matter of public debate, including serious cases of impropriety, unethical conduct or incompetence concerning the public",
+        "disclosing concealment, or likely concealment, of any of the above",
+        "protecting public health and security and social, cultural and educational standards",
+        "protecting the public from being misled by some statement or action of an individual or organisation"
+      ],
+      "proportionality_test": "Where public interest is cited, the breach must be proportionate to the public interest served.",
+      "not_public_interest": [
+        "the fame, notoriety or position of a child's family or guardian (rule 7.4)",
+        "mere curiosity or sensational appeal"
+      ]
+    },
+    "CONSENT": "The affected individual (or guardian, for minors) agreed to the publication.",
+    "LEGALLY_PERMITTED": "Publication is permitted by law (e.g. a court has lifted reporting restrictions).",
+    "DIRECTLY_RELEVANT": "The personal characteristic is directly relevant to the story.",
+    "VERIFICATION_NOT_PRACTICABLE_STATED": "The report explicitly states that the information could not be verified."
+  },
+  "groups": [
+    {
+      "group_id": "ACCURACY",
+      "title": "Sourcing and fact vs opinion",
+      "description": "Whether claims are sourced by credible, relevant sources, and whether fact is kept separate from comment and conjecture.",
+      "rule_ids": [
+        "2.2.a",
+        "2.2.b",
+        "2.2.c",
+        "2.5"
+      ]
+    },
+    {
+      "group_id": "HARM_SENSITIVITY",
+      "title": "Sensitivity, graphic content and suicide",
+      "description": "Handling violent, shocking or distressing material, excessive detail of methods, and suicide reporting.",
+      "rule_ids": [
+        "6.1.a",
+        "6.1.b",
+        "6.1.c",
+        "6.5"
+      ]
+    },
+    {
+      "group_id": "CRIME_IDENTIFICATION",
+      "title": "Identifying people in crime reporting",
+      "description": "Naming victims of sex crimes, young accused persons, and relatives of accused/convicted persons.",
+      "rule_ids": [
+        "6.2.i",
+        "6.2.ii",
+        "6.2.iii"
+      ]
+    },
+    {
+      "group_id": "DISCRIMINATION",
+      "title": "Discord, prejudice and irrelevant identity details",
+      "description": "Promoting communal or religious discord, prejudicial references, and needless mention of race, caste, religion, sexual orientation, illness or disability.",
+      "rule_ids": [
+        "6.3",
+        "6.4.i",
+        "6.4.ii"
+      ]
+    },
+    {
+      "group_id": "PRIVACY",
+      "title": "Privacy",
+      "description": "Private and family life, home, health, correspondence, children and people in hospitals.",
+      "rule_ids": [
+        "7.1",
+        "7.4",
+        "7.5"
+      ]
+    }
+  ],
+  "legacy_db_mapping": {
+    "source": "slpi_prod_v2.ethics_code",
+    "note": "sub_rule IDs used in article_violations mapped to rule_ids in this file. 5.0 (confidential sources) is out of scope.",
+    "map": {
+      "2.2.i": "2.2.a",
+      "2.2.ii": "2.2.b",
+      "2.2.iii": "2.5",
+      "2.2.iv": "2.2.c",
+      "6.1": "6.1.a",
+      "6.2.i": "6.2.i",
+      "6.2.ii": "6.2.ii",
+      "6.2.iii": "6.2.iii",
+      "6.3": "6.3",
+      "6.4.i": "6.4.i",
+      "6.4.ii": "6.4.ii",
+      "6.5": "6.5",
+      "6.6": "6.1.b",
+      "6.7": "6.1.c"
+    }
+  }
+}

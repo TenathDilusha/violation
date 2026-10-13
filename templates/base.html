@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Violations{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #f6f7f9; --card: #fff; --text: #1f2933; --muted: #6b7785; --border: #e2e6ea;
+      --accent: #2563eb;
+      --REVIEWED_VIOLATION: #d97706; --DECIDED_CRITICAL: #dc2626; --DECIDED_NON_CRITICAL: #7c3aed;
+      --REVIEWED_NON_VIOLATION: #16a34a; --NEW: #64748b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Sinhala", "Noto Sans Tamil", sans-serif;
+      font-size: 15px; line-height: 1.5;
+    }
+    header { background: #111827; color: #fff; padding: 12px 24px; display: flex; gap: 24px; align-items: center; }
+    header .brand { font-weight: 600; }
+    header .schema { color: #9ca3af; font-size: 13px; }
+    header nav { display: flex; gap: 16px; margin-left: auto; }
+    header a { color: #d1d5db; text-decoration: none; }
+    header a:hover, header a.active { color: #fff; }
+    main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; min-width: 140px; }
+    .stat .n { font-size: 22px; font-weight: 600; }
+    .stat .l { color: var(--muted); font-size: 12px; }
+    form.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    input, select, button { font: inherit; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
+    input[type=search] { min-width: 260px; }
+    button, .btn { background: var(--accent); color: #fff; border-color: var(--accent); cursor: pointer; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+    .btn.secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; background: var(--card); }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { background: #f1f3f5; font-size: 13px; color: var(--muted); position: sticky; top: 0; }
+    tr:hover td { background: #fafbfc; }
+    td a { color: var(--accent); text-decoration: none; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; }
+    .badge.REVIEWED_VIOLATION { background: var(--REVIEWED_VIOLATION); }
+    .badge.DECIDED_CRITICAL { background: var(--DECIDED_CRITICAL); }
+    .badge.DECIDED_NON_CRITICAL { background: var(--DECIDED_NON_CRITICAL); }
+    .badge.REVIEWED_NON_VIOLATION { background: var(--REVIEWED_NON_VIOLATION); }
+    .badge.EXTERNAL_VIOLATION { background: #fff; color: #b45309; border: 1px dashed #d97706; }
+    .badge.ASSUMED_NON_VIOLATION { background: #fff; color: #15803d; border: 1px dashed #16a34a; }
+    .badge.NEW { background: var(--NEW); }
+    .lang { font-family: monospace; font-size: 12px; background: #eef2f7; padding: 1px 6px; border-radius: 4px; }
+    .muted { color: var(--muted); }
+    .snippet { color: var(--muted); font-size: 13px; }
+    .mono { font-family: monospace; font-size: 12px; }
+    .article-body { white-space: pre-wrap; font-size: 16px; line-height: 1.8; }
+    .article-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .missing { color: #b91c1c; font-style: italic; }
+    .ans { display: inline-block; min-width: 44px; text-align: center; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+    .ans.ok { background: #dcfce7; color: #166534; }
+    .ans.bad { background: #fee2e2; color: #991b1b; }
+    .ans.err { background: #fef3c7; color: #92400e; }
+    .ans.none { background: #f1f5f9; color: #94a3b8; }
+    .metric { font-variant-numeric: tabular-nums; }
+    .conf { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .rules { display: block; font-family: monospace; font-size: 11px; margin-top: 2px; }
+    .rule.violation { color: #b91c1c; font-weight: 600; }
+    mark.ev { border-radius: 3px; padding: 0 1px; cursor: help; }
+    mark.ev.violation { background: #fecaca; }
+    mark.ev.human { background: #bfdbfe; }
+    .hl-count { display: inline-block; min-width: 22px; text-align: center; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px; background: #fecaca; color: #991b1b; text-decoration: none; }
+    .hl-count.zero { background: #f1f5f9; color: #94a3b8; font-weight: 400; }
+    .span-list { margin: 10px 0 0; padding-left: 18px; font-size: 13px; }
+    .span-list li { margin-bottom: 4px; }
+    .verdict { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+    .verdict.VIOLATION { background: #fee2e2; color: #991b1b; }
+    .verdict.NO_VIOLATION { background: #f1f5f9; color: #64748b; }
+    table.compact { font-size: 13px; }
+    table.compact th, table.compact td { padding: 6px 7px; }
+    .rule.match { color: #166534; font-weight: 600; }
+    .rule.extra { color: #b91c1c; font-weight: 600; text-decoration: underline dotted; }
+    .rule.missed { color: #1d4ed8; font-weight: 600; }
+    .outcome { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .outcome.caught, .outcome-box.caught { background: #dcfce7; color: #166534; }
+    .outcome.correct_no, .outcome-box.correct_no { background: #f0fdf4; color: #15803d; }
+    .outcome.missed, .outcome-box.missed { background: #dbeafe; color: #1e40af; }
+    .outcome.false_alarm, .outcome-box.false_alarm { background: #fee2e2; color: #991b1b; }
+    .outcome.error, .outcome-box.error { background: #fef3c7; color: #92400e; }
+    .outcome-boxes { display: flex; flex-wrap: wrap; gap: 10px; }
+    .outcome-box { padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; }
+    .outcome-box strong { font-size: 20px; margin-right: 4px; }
+    .verdict-row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-end; }
+    .cmp-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cmp-columns > .card { margin-bottom: 16px; }
+    @media (max-width: 900px) { .cmp-columns { grid-template-columns: 1fr; } }
+    mark.cmp { border-radius: 3px; padding: 0 1px; cursor: help; }
+    mark.cmp.both { background: #bbf7d0; }
+    mark.cmp.missed { background: #bfdbfe; }
+    mark.cmp.extra { background: #fecaca; }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="brand">Violation Viewer</span>
+    <span class="schema">schema: {{ schema }}</span>
+    <nav>
+      <a href="{{ url_for('overview') }}" class="{{ 'active' if request.endpoint == 'overview' }}">What I did</a>
+      <a href="{{ url_for('compare_tasks') }}" class="{{ 'active' if request.endpoint == 'compare_tasks' }}">Model comparison</a>
+      <a href="{{ url_for('best_model') }}" class="{{ 'active' if request.endpoint == 'best_model' }}">Best model</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

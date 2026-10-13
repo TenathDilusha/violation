@@ -1,0 +1,1 @@
+{"article_id": "019f01ee-ce48-7026-b4e0-28a287085d56", "experiment": "zero_shot", "provider": "sinllama", "model": "sinllama-8b", "expected": "YES", "article_status": "REVIEWED_VIOLATION", "confidence": 0.4478685803537628, "error": null, "answer": "NO", "raw_output": "NO (P(YES)=0.448, P(YES)+P(NO)=0.871)", "created_at": "2026-09-28T06:49:39.107956+00:00"}

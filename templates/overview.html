@@ -1,0 +1,407 @@
+{% extends "base.html" %}
+{% block title %}What I did{% endblock %}
+{% macro pct(v) %}{{ '—' if v is none else '%.0f'|format(v * 100) }}{% endmacro %}
+{% macro num(v) %}{{ v|int if v == v|int else '%.1f'|format(v) }}{% endmacro %}
+{% macro bar(v, cls='') %}<div class="ov-bar {{ cls }}"><span style="width:{{ 0 if v is none else (v * 100)|round(1) }}%"></span></div>{% endmacro %}
+{% macro caught(c) %}caught {{ num(c.tp) }}/{{ num(c.tp + c.fn) }} · {{ num(c.fp) }} false alarm{{ '' if c.fp == 1 else 's' }}{% endmacro %}
+{% block content %}
+<style>
+  .ov h1 { margin: 0 0 6px; font-size: 26px; }
+  .ov h2 { margin: 0 0 4px; font-size: 19px; }
+  .ov h3 { margin: 0 0 6px; font-size: 15px; }
+  .ov p { margin: 6px 0; }
+  .ov-step { display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; margin-right: 8px; }
+  .ov-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 10px; }
+  .ov-cards > div { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; background: #fbfcfd; }
+  .ov-cards code, .ov code { background: #eef2f7; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  .ov-bar { height: 8px; background: #eef2f7; border-radius: 4px; overflow: hidden; margin: 4px 0; min-width: 80px; }
+  .ov-bar span { display: block; height: 100%; background: #60a5fa; }
+  .ov-bar.best span { background: #16a34a; }
+  .ov-bar.si span { background: #f59e0b; }
+  .ov-big { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+  .tag.good { background: #dcfce7; color: #166534; }
+  .tag.bad { background: #fee2e2; color: #991b1b; }
+  .tag.mixed { background: #fef3c7; color: #92400e; }
+  .tag.info { background: #e0e7ff; color: #3730a3; }
+  .ov-try { border-left: 4px solid var(--border); padding: 4px 0 4px 14px; margin: 14px 0; }
+  .ov-try.good { border-color: #16a34a; } .ov-try.bad { border-color: #dc2626; } .ov-try.mixed { border-color: #f59e0b; } .ov-try.info { border-color: #6366f1; }
+  .ov table td, .ov table th { font-size: 13px; }
+  .ov-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; }
+  .ov-flow span.box { border: 1px solid var(--border); background: #fff; border-radius: 6px; padding: 4px 10px; }
+  .ov-learn li { margin-bottom: 6px; }
+  tr.top4 td { background: #fef3c7; }
+  tr.top4 td:first-child { box-shadow: inset 4px 0 0 #f59e0b; }
+  td.top4cell { background: #fef3c7; box-shadow: inset 0 0 0 2px #f59e0b; }
+  .rank { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 999px; background: #f59e0b; color: #fff; font-size: 11px; font-weight: 700; vertical-align: middle; }
+  .ov-result { border: 1px solid #16a34a; background: #f0fdf4; border-radius: 8px; padding: 10px 14px; margin-top: 12px; }
+</style>
+<div class="ov">
+
+<div class="card">
+  <h1>What I did</h1>
+  <p>
+    I tested whether large language models can check Sri Lankan newspaper articles, in Sinhala and English, against the
+    Editors' Guild <strong>Code of Professional Practice</strong>. For each article the model has to answer three questions:
+    <strong>does it break the code?</strong> <strong>which rules?</strong> and <strong>which words break them?</strong>
+    This page goes through the work from start to end.
+  </p>
+  <div class="stats" style="margin-top:12px">
+    <div class="stat"><div class="n">{{ main.common }}</div><div class="l">test articles</div></div>
+    <div class="stat"><div class="n">{{ main.yes }}</div><div class="l">violations</div></div>
+    <div class="stat"><div class="n">{{ main.no }}</div><div class="l">non-violations</div></div>
+    <div class="stat"><div class="n">{{ langs.si }} / {{ langs.en }}</div><div class="l">Sinhala / English</div></div>
+    <div class="stat"><div class="n">{{ n_rules }}</div><div class="l">rules in {{ groups|length }} groups</div></div>
+    <div class="stat"><div class="n">{{ main.models|length }}</div><div class="l">models</div></div>
+  </div>
+  {% if top %}{% set b = top[0] %}
+  <div class="ov-result">
+    <strong>Where it ended up:</strong> the best approach is <strong>{{ b.label }}</strong> with {{ model }}:
+    F2 {{ pct(b.f2) }} (95% interval {{ pct(b.ci.f2[0]) }}–{{ pct(b.ci.f2[1]) }}), precision {{ pct(b.precision) }}, recall {{ pct(b.recall) }}.
+    <a href="{{ url_for('best_model') }}">Best model</a> has its full scores.
+  </div>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2><span class="ov-step">1</span>The code of conduct as data</h2>
+  <div class="ov-cards">
+    <div>
+      <h3>Rules a model can judge</h3>
+      I turned the code into a JSON file of {{ n_rules }} rules that can be judged from the article text alone
+      (e.g. unsourced claims, naming sex-crime victims, needless mention of caste or religion).
+      Each rule lists what it says, what must be true for a breach, its exceptions (public interest, consent …) and clues to look for.
+      Rules that need fact-checking, photos or newsroom knowledge were left out.
+    </div>
+    <div>
+      <h3>Only two answers</h3>
+      Every rule is either <code>VIOLATION</code> or <code>NO_VIOLATION</code>. I first allowed a third answer,
+      "INDETERMINATE" (not sure), but removed it so every decision is a clear yes or no, and re-ran everything.
+    </div>
+    <div>
+      <h3>A Sinhala version</h3>
+      I also translated the code into Sinhala, to test whether Sinhala articles are judged better against Sinhala rules (step 6).
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="ov-step">2</span>The test articles</h2>
+  <div class="ov-cards">
+    <div>
+      <h3>Violations reviewed on the platform</h3>
+      {{ sets.platform.si + sets.platform.en }} articles reviewers marked as violations ({{ sets.platform.si }} Sinhala, {{ sets.platform.en }} English).
+      The correct rule codes and offending words for each come from hand-checked reviews. Tamil articles and violations without text are left out.
+    </div>
+    <div>
+      <h3>Non-violations</h3>
+      {{ sets.clean.si }} Sinhala articles reviewed as clean, and {{ sets.clean.en }} English ones. No English article has been reviewed as clean,
+      so the English ones are random unreviewed articles assumed to be clean. Every run uses the same ones.
+    </div>
+    {% if sets.external %}
+    <div>
+      <h3>Violations from the spreadsheets (added later)</h3>
+      {{ sets.external }} English violation articles collected outside the platform, none of them already in the database. I wrote the correct rules
+      and words for each from the spreadsheet's clause and the article, you confirmed them, and they joined the test set (step 7).
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="ov-step">3</span>The models</h2>
+  <div class="ov-cards">
+    <div><h3>gpt-4.1 <span class="tag good">main model</span></h3>OpenAI's model through the API, temperature 0. Used for every experiment, on every test article.</div>
+    <div><h3>Gemini 3.5 Flash</h3>Google's model. Ran once on the first set of articles; many calls failed because the service was overloaded,
+      and the prepaid credits ran out before the spreadsheet articles, so its numbers are incomplete.</div>
+    <div><h3>SinLlama 8B</h3>A Sinhala Llama model on our own GPU (Sinhala articles only). It can't write answers, so I read how likely it thinks "YES" is versus "NO".</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="ov-step">4</span>Three ways to ask, three prompt styles</h2>
+  <p class="muted">Every task is also scored as a yes/no detector: an article counts as "violation" if the model says YES, names a rule or highlights something.</p>
+  <div class="ov-cards">
+    <div><h3>Violated?</h3>The model answers one word.<br><code>YES</code> / <code>NO</code></div>
+    <div><h3>Rule detection</h3>The model lists the broken rules.<br><code>["2.2.a", "6.4.ii"]</code></div>
+    <div><h3>Highlights</h3>The model copies the exact words and names the rule; I find them in the article.<br><code>{"rule": "2.5", "excerpt": "…"}</code></div>
+  </div>
+  <div class="ov-cards">
+    <div><h3>Zero-shot</h3>Just the code and the article.</div>
+    <div><h3>Few-shot</h3>The same, plus 3 worked example articles per language with the correct answer.</div>
+    <div><h3>Per-rule</h3>The model goes through all {{ n_rules }} rules one by one and gives a verdict for each.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="ov-step">5</span>First results: {{ model }}, {{ tasks|length }} tasks × {{ prompts|length }} prompts</h2>
+  <p class="muted">F2 out of 100 (higher is better; explained at the bottom), mean of 3 runs, on the {{ main.common }} test articles. Cells among the overall top 4 approaches are highlighted.</p>
+  {% set best_f2 = grid|map(attribute='cells')|sum(start=[])|select|map(attribute='f2')|max %}
+  {% set pkeys = prompts|list %}
+  <table>
+    <thead><tr><th></th>{% for e, label in prompts.items() %}<th>{{ label }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for row in grid %}
+      <tr>
+        <td><strong>{{ row.label }}</strong></td>
+        {% for c in row.cells %}
+        {% set rank = top_rank.get((row.task, pkeys[loop.index0])) %}
+        <td{% if rank %} class="top4cell"{% endif %}>
+          {% if c %}
+            <span class="ov-big">{{ pct(c.f2) }}</span>{% if rank %}<span class="rank">#{{ rank }} overall</span>{% endif %}
+            {{ bar(c.f2, 'best' if c.f2 == best_f2 else '') }}
+            <span class="conf">{{ caught(c) }}</span>
+          {% else %}<span class="muted">—</span>{% endif %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="muted" style="margin-top:8px">
+    Other models (best cell each):
+    {% for o in other_models %}<strong>{{ o.model }}</strong> {{ o.task }} · {{ o.prompt }} = {{ pct(o.c.f2) }} ({{ caught(o.c) }}){{ '; ' if not loop.last }}{% endfor %}.
+    SinLlama is scored on Sinhala articles only. Every model, task and prompt is on <a href="{{ url_for('compare_tasks') }}">Model comparison</a>.
+  </p>
+</div>
+
+<div class="card">
+  <h2><span class="ov-step">6</span>Things I tried to do better</h2>
+
+  <div class="ov-try info">
+    <h3>Run everything 3 times and average <span class="tag info">fairer numbers</span></h3>
+    <p>gpt-4.1 gives slightly different answers each run even at temperature 0, so one run can be lucky or unlucky.
+      Across the 9 formats the F2 of the three runs differed by {{ pct(spread_mean) }} points on average (up to {{ pct(spread_max) }}).
+      SinLlama gave exactly the same answers every time. All main numbers are the average of 3 runs.</p>
+  </div>
+
+  {% if two_step_runs %}
+  <div class="ov-try mixed">
+    <h3>Two calls instead of one <span class="tag mixed">better highlights, same detection</span></h3>
+    <div class="ov-flow">
+      <strong>Codes first:</strong> <span class="box">article → which rules?</span> → <span class="box">article + those rules → which words?</span>
+    </div>
+    <div class="ov-flow">
+      <strong>Highlights first:</strong> <span class="box">article → which words?</span> → <span class="box">article + those words → which rules?</span>
+    </div>
+    <table class="compact" style="margin-top:10px">
+      <tr><th>Approach</th><th>F2</th><th style="width:22%"></th><th>Result</th><th title="Share of the correct offending words the model highlighted">Correct words highlighted</th></tr>
+      {% for r in two_step_runs %}
+      <tr{% if not r.approach %} class="muted"{% endif %}><td>{{ r.label }}</td><td>{{ pct(r.f2) }}</td><td>{{ bar(r.f2) }}</td><td class="conf">{{ caught(r) }}</td><td>{{ pct(r.char_recall) }}%</td></tr>
+      {% endfor %}
+    </table>
+    {% set two = two_step_runs|selectattr('approach')|map(attribute='char_recall')|select|list %}
+    {% set one = two_step_runs|rejectattr('approach')|map(attribute='char_recall')|select|list %}
+    <p class="muted">One run each, on an earlier article set; grey rows are the one-call highlights for comparison.
+      {% if two and one %}Naming the rules first and then finding the words covers more of the correct text (up to {{ pct(two|max) }}% vs {{ pct(one|max) }}% at most in one call).{% endif %}</p>
+  </div>
+  {% endif %}
+
+  {% if best_vote %}
+  <div class="ov-try mixed">
+    <h3>Voting across runs <span class="tag mixed">promising, not proven</span></h3>
+    <p>Treat each of the {{ votes.runs|length }} {{ model }} runs (3 tasks × 3 prompts) as a voter: an article is a violation when at least
+      <strong>{{ best_vote.k }}</strong> of them {{ 'says' if best_vote.k == 1 else 'say' }} so. That gives F2 <strong>{{ pct(best_vote.f2) }}</strong> ({{ caught(best_vote) }}).
+      The threshold was picked after seeing these results, so it needs new articles to confirm it.</p>
+  </div>
+  {% endif %}
+
+  {% if confidence %}
+  {% set cbest = confidence|selectattr('key', 'equalto', 'mean')|first %}
+  {% set one_f1 = grid|map(attribute='cells')|sum(start=[])|select|map(attribute='f1')|select|max %}
+  {% set helped = cbest and cbest.fair.f1 and cbest.fair.f1 > one_f1 + 0.03 %}
+  <div class="ov-try {{ 'good' if helped else 'mixed' }}">
+    <h3>Confidence scores instead of yes/no <span class="tag {{ 'good' if helped else 'mixed' }}">{{ 'best balance of precision and recall' if helped else 'no clear gain' }}</span></h3>
+    <p>When gpt-4.1 answers YES or NO it also reports how likely each word was. I use that as a score, P(YES), and call an article a
+      violation when the score passes a threshold. gpt-4.1 is very sure of itself: it often answers NO while still giving YES a few percent,
+      and those articles are often real violations, so the best threshold is far below 50%.</p>
+    <p>To keep it fair, each article is judged with a threshold chosen on the <em>other</em> articles only (leave-one-out), so the threshold never sees the article it decides.</p>
+    <table class="compact">
+      <tr><th>Score</th><th>Answer YES/NO as usual (threshold 50%)</th><th>Fair threshold: precision</th><th>Recall</th><th>F1</th><th>F2</th><th>Result</th></tr>
+      {% for c in confidence %}
+      {% set f = c.fair %}
+      <tr{% if c.key == 'mean' %} style="font-weight:600"{% endif %}>
+        <td>{{ c.label }}</td>
+        <td class="conf">precision {{ pct(c.at_half.precision) }} · recall {{ pct(c.at_half.recall) }}</td>
+        <td>{{ pct(f.precision) }}</td><td>{{ pct(f.recall) }}</td>
+        <td>{{ pct(f.f1) }}</td>
+        <td>{{ pct(f.f2) }}</td><td class="conf">{{ caught(f) }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% if cbest %}<p class="muted">Each score is the mean over 3 runs. On all {{ cbest.n }} articles the best threshold for the mean score is {{ '%.1f'|format(cbest.fitted.threshold * 100) }}% P(YES).
+      For comparison, the best single format reaches F1 {{ pct(one_f1) }}.</p>{% endif %}
+    {% if task_scores %}
+    <p>I then made the same kind of score for rule detection and highlights too, {{ task_scores|length }} scores in all: the share of the 3 runs that flag the article,
+      the probability of VIOLATION per rule from the per-rule prompts (highest, combined, summed), the number of rules or passages named, and mixes of these, also across all 3 tasks.
+      Each is judged with a leave-one-out threshold. The best 6 by F2:</p>
+    <table class="compact">
+      <tr><th>Score</th><th>Task</th><th>F2</th><th style="width:18%"></th><th>Precision</th><th>Recall</th><th>F1</th><th>Result</th></tr>
+      {% for s in task_scores[:6] %}
+      <tr><td>{{ s.label }}</td><td>{{ s.task_label }}</td><td>{{ pct(s.f2) }}</td><td>{{ bar(s.f2) }}</td><td>{{ pct(s.precision) }}</td><td>{{ pct(s.recall) }}</td><td>{{ pct(s.f1) }}</td><td class="conf">{{ caught(s) }}</td></tr>
+      {% endfor %}
+    </table>
+    {% set pr = task_scores|selectattr('key', 'equalto', 'max_p')|selectattr('task', 'equalto', 'rule')|first %}
+    <p class="muted">The scores are close: with {{ main.yes }} violations none of the top ones is clearly better than the others.
+      {% if pr %}Probabilities help the per-rule prompts most: per-rule rule detection reaches F2 {{ pct(pr.f2) }} with its highest P(VIOLATION), against {{ pct(grid[1].cells[2].f2) }} as a plain yes/no.{% endif %}
+      Every score in every language is on <a href="{{ url_for('compare_tasks') }}">Model comparison</a>.</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if versions|length > 1 %}
+  <div class="ov-try good">
+    <h3>Fixing the prompt from its failures (rule detection) <span class="tag good">fewer false alarms, rules named correctly</span></h3>
+    <p>I read every mistake of zero-shot rule detection and added a guide on how to apply the rules it misapplied: attributed claims are sourced (2.2.a),
+      editorials may give opinions but headlines must not state allegations as fact (2.5), tone is 6.1.a and method is 6.1.b, involved relatives are not 6.2.iii,
+      a name and town is not a privacy breach but a home address or a relationship is (7.1). v2 over-corrected and missed violations; v3 rewrites those points.</p>
+    <table class="compact">
+      <tr><th>Prompt</th><th>F2</th><th>Precision</th><th>Recall</th><th>False alarms per run</th><th>Named rules correct</th></tr>
+      {% for v in versions %}
+      <tr><td>{{ v.label }}</td><td>{{ pct(v.f2) }}</td><td>{{ pct(v.precision) }}</td><td>{{ pct(v.recall) }}</td><td>{{ num(v.fp) }}</td>
+        <td>{{ pct(v.code_precision) }}%</td></tr>
+      {% endfor %}
+    </table>
+    <p class="muted">3 runs each on the test articles; the guide was written after seeing the original ones, so those scores are optimistic.
+      The spreadsheet violations were added afterwards, so recall on them (step 7) is the fairer check.</p>
+  </div>
+  {% endif %}
+
+  {% if si_pairs %}
+  <div class="ov-try {{ 'good' if si_better * 2 > si_pairs|length else 'bad' }}">
+    <h3>The code of conduct in Sinhala, for Sinhala articles
+      <span class="tag {{ 'good' if si_better * 2 > si_pairs|length else 'bad' }}">{{ 'helped' if si_better * 2 > si_pairs|length else 'English is better' }}</span></h3>
+    <p>Same prompts, but the rules written in Sinhala. Better in {{ si_better }} of {{ si_pairs|length }} formats
+      ({{ si.common }} Sinhala articles, {{ model }}, mean of 3 runs). The Sinhala code mostly made the model miss violations.</p>
+    <table class="compact">
+      <tr><th>Format</th><th>English code</th><th style="width:22%"></th><th>Sinhala code</th><th style="width:22%"></th><th>Change</th></tr>
+      {% for p in si_pairs %}
+      {% set d = (p.si.f2 or 0) - (p.en.f2 or 0) %}
+      <tr><td>{{ p.label }}</td>
+        <td>{{ pct(p.en.f2) }}</td><td>{{ bar(p.en.f2) }}</td>
+        <td>{{ pct(p.si.f2) }}</td><td>{{ bar(p.si.f2, 'si') }}</td>
+        <td style="color:{{ '#166534' if d > 0 else '#991b1b' }}">{{ '%+.0f'|format(d * 100) }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+{% if sets.external and top %}
+<div class="card">
+  <h2><span class="ov-step">7</span>More violations from the spreadsheets</h2>
+  <p>The first test set had few English violations, so I added the {{ sets.external }} spreadsheet violations. For each I mapped the spreadsheet's clause
+    (e.g. "6.1") to the matching rule, read the article for other broken rules, marked the exact words, and you confirmed every one.
+    Where the article is too short to tell, the rule is a best guess; one is a violation with the rule unknown.
+    Then I ran every {{ model }} approach on them (the main ones 3 times), and every score on this page now includes them.</p>
+  <table class="compact">
+    <tr><th>Approach</th><th>Recall on the platform violations</th><th>Recall on the spreadsheet violations</th></tr>
+    {% for a in top %}
+    <tr><td><span class="rank">#{{ a.rank }}</span> {{ a.label }}</td>
+      {% for x in a.by_source %}<td>{% if x %}{{ pct(x.recall) }} <span class="conf">({{ pct(x.ci.recall[0]) }}–{{ pct(x.ci.recall[1]) }}, {{ x.n }} articles)</span>{% else %}—{% endif %}</td>{% endfor %}</tr>
+    {% endfor %}
+  </table>
+  {% set src = top[0].by_source %}
+  <p class="muted">{% if src[0] and src[1] and src[1].recall > src[0].recall %}The spreadsheet
+    violations are easier to catch, probably because they were collected for clearly breaking the code. {% endif %}Gemini ran out of credits before reaching them.</p>
+</div>
+{% endif %}
+
+{% set gives = {
+  ('rule', 'zero_shot'): 'Says which rules are broken. Catches the most violations, but has the most false alarms (mostly 2.2.a).',
+  ('rule', 'zero_shot_v3'): 'Says which rules are broken. Fewer false alarms and more correct rule names than the original.',
+  ('confidence', 'mean'): 'Only a yes / no flag, no rule or words. The best balance of precision and recall.',
+  ('rule', 'few_shot'): 'Says which rules are broken. Like zero-shot, with examples in the prompt.',
+  ('span', 'zero_shot'): 'Highlights the offending words and names the rule.',
+  ('span', 'few_shot'): 'Highlights the offending words and names the rule, with examples in the prompt.',
+  ('score', 'all_share', 'all'): 'Only a yes / no flag: violation when enough of the 27 runs (3 tasks × 3 prompts × 3 runs) flag it. Needs all 27 calls per article.',
+  ('score', 'all_p_and_share', 'all'): 'Only a yes / no flag, from the run share and the probabilities of all 3 tasks. Needs all 27 calls per article.',
+} %}
+<div class="card">
+  <h2><span class="ov-step">8</span>Where it ended up: the top 4 approaches</h2>
+  <p class="muted">Out of everything I tried, ranked by F2 on the same footing: {{ model }}, the {{ main.common }} test articles, mean of 3 runs.
+    The candidates are the 9 one-call formats, the prompts fixed from failures and the {{ task_scores|length }} confidence scores (each with a leave-one-out threshold;
+    picking the best of that many on the same articles flatters the winner a little). Left out because they aren't comparable: the two-call runs (scored once, on an earlier set of articles)
+    and voting (its threshold was picked after seeing the results). These 4 are highlighted on every page.</p>
+  <table>
+    <thead><tr><th>#</th><th>Approach</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th><th class="num">F2</th><th>F2 95% interval</th><th>What it gives</th></tr></thead>
+    <tbody>
+      {% for a in top %}
+      <tr class="top4">
+        <td><span class="rank">#{{ a.rank }}</span></td>
+        <td><strong>{{ a.label }}</strong><div class="muted">{{ a.kind }}</div></td>
+        <td class="num">{{ pct(a.precision) }}</td>
+        <td class="num">{{ pct(a.recall) }}</td>
+        <td class="num">{{ pct(a.f1) }}</td>
+        <td class="num"><strong>{{ pct(a.f2) }}</strong></td>
+        <td class="muted">{{ pct(a.ci.f2[0]) }}–{{ pct(a.ci.f2[1]) }}</td>
+        <td>{{ gives.get(a.key, 'A yes / no flag from the ' ~ (a.score_kind or '') ~ ' score; violation when it passes the threshold.' if a.kind == 'Confidence score' else '') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="muted" style="margin-top:10px">#1 is the best model and approach; its accuracy, precision, recall and the rest are on <a href="{{ url_for('best_model') }}">Best model</a>.
+    The 4 are within each other's 95% intervals, so with {{ main.yes }} violations none is clearly better; pick by what you need.
+    Clearly worse: the per-rule prompts, zero-shot YES/NO, the Sinhala code of conduct and SinLlama.</p>
+</div>
+
+<div class="card">
+  <h2>Every approach, ranked</h2>
+  <p class="muted">By F2 on the test articles. "Runs" = how many times it was run (the score is their average).
+    The 95% interval (bootstrap over articles) shows how much the score could move with other articles, so neighbouring rows are usually not really different.
+    The top 4 are highlighted. Rows with fewer violations in "Caught" were scored once on an earlier article set, so compare them with care.</p>
+  <table>
+    <thead><tr><th>#</th><th>Approach</th><th>Type</th><th>F2</th><th>95% interval</th><th style="width:18%"></th><th>Precision</th><th>Recall</th><th>F1</th><th>Caught</th><th>False alarms</th><th>Runs</th></tr></thead>
+    <tbody>
+      {% for b in board %}
+      {% set rank = top_rank.get(b.key) if b.key else none %}
+      <tr{% if rank %} class="top4"{% endif %}>
+        <td>{{ loop.index }}{% if rank %}<span class="rank">#{{ rank }}</span>{% endif %}</td>
+        <td>{% if b.link %}<a href="{{ b.link }}">{{ b.label }}</a>{% else %}{{ b.label }}{% endif %}</td>
+        <td class="muted">{{ b.group }}</td>
+        <td><strong>{{ pct(b.f2) }}</strong></td>
+        <td class="conf">{% if b.ci %}{{ pct(b.ci[0]) }}–{{ pct(b.ci[1]) }}{% else %}—{% endif %}</td>
+        <td>{{ bar(b.f2, 'best' if loop.first else '') }}</td>
+        <td>{{ pct(b.precision) }}</td>
+        <td>{{ pct(b.recall) }}</td>
+        <td>{{ pct(b.f1) }}</td>
+        <td>{{ num(b.tp) }}/{{ num(b.total) }}</td>
+        <td>{{ num(b.fp) }}</td>
+        <td>{{ b.runs }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>What I learned</h2>
+  {% set per_rule = grid|map(attribute='cells')|map('last')|select|list %}
+  <ul class="ov-learn">
+    {% if top %}<li><strong>A top group, not a single winner:</strong> {{ top[0].label }} scores highest (F2 {{ pct(top[0].f2) }}),
+      but with {{ main.yes }} violations it can't be told apart from the next few approaches. The per-rule prompts and zero-shot YES/NO are clearly worse.</li>{% endif %}
+    <li><strong>Picking after seeing the results flatters:</strong> choosing the best of many options (like the vote threshold) on the same articles overstates its score by several points; a leave-one-out choice gives the honest number.</li>
+    <li><strong>Concrete rules are easy, judgement rules are not:</strong> excessive detail of a murder method is found almost every time; opinion presented as fact, sensational treatment and privacy intrusion are usually flagged but filed under the wrong rule; and the unsourced-claims rule (2.2.a) causes most false alarms.</li>
+    {% set hl = board|selectattr('group', 'equalto', 'Two calls')|first %}
+    {% if hl %}<li><strong>For showing the offending words:</strong> {{ hl.label }} (F2 {{ pct(hl.f2) }}, one run): naming the rules first and then finding the words highlights more of the correct text than doing both in one call.</li>{% endif %}
+    {% if per_rule %}<li><strong>Going rule by rule misses violations:</strong> the per-rule prompts caught only {% for c in per_rule %}{{ num(c.tp) }}{{ ', ' if not loop.last }}{% endfor %} of {{ main.yes }} — the model rarely calls a single rule broken when asked about it on its own.</li>{% endif %}
+    {% if si_pairs %}<li><strong>Keep the code in English:</strong> giving it in Sinhala scored lower in {{ si_pairs|length - si_better }} of {{ si_pairs|length }} formats on Sinhala articles, and never clearly higher.</li>{% endif %}
+    <li><strong>Sinhala needs more violations:</strong> the test set has only {{ sets.platform.si }} Sinhala violations, so Sinhala scores are much less certain than English ones.</li>
+    {% for sl in other_models if 'sinllama' in sl.model %}<li><strong>The small local model isn't ready:</strong> SinLlama's best score ({{ pct(sl.c.f2) }}, {{ sl.task }} · {{ sl.prompt }}) comes from flagging almost every Sinhala article ({{ caught(sl.c) }}).</li>{% endfor %}
+    <li><strong>One run isn't enough:</strong> gpt-4.1's score moves by several points between identical runs, on top of the uncertainty from the small test set.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>How the scoring works</h2>
+  <div class="ov-cards">
+    <div><h3>Accuracy</h3>Of all articles, how many the model judged correctly (violation or not).</div>
+    <div><h3>Recall</h3>Of the real violations, how many the model caught.</div>
+    <div><h3>Precision</h3>Of the articles the model flagged, how many really were violations (the rest are false alarms).</div>
+    <div><h3>F1</h3>One score combining both equally: high only when precision and recall are both high.</div>
+    <div><h3>F2</h3>One score combining both, with recall counting twice as much: missing a violation is worse than a false alarm, because a person checks every flagged article anyway. This is the main score.</div>
+  </div>
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Best model{% endblock %}
+{% macro pct(v) %}{{ '—' if v is none else '%.0f'|format(v * 100) }}{% endmacro %}
+{% macro num(v) %}{{ v|int if v == v|int else '%.1f'|format(v) }}{% endmacro %}
+{% macro ci(c) %}{% if c %}<span class="conf">{{ pct(c[0]) }}–{{ pct(c[1]) }}</span>{% endif %}{% endmacro %}
+{% block content %}
+<style>
+  .bm-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+  .bm-metrics > div { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; background: #fbfcfd; }
+  .bm-metrics .v { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .bm-metrics .k { font-weight: 600; }
+  .bm-metrics .primary { border-color: #16a34a; background: #f0fdf4; }
+  .bm-matrix td, .bm-matrix th { text-align: center; }
+  .bm-matrix td.good { background: #dcfce7; font-weight: 700; }
+  .bm-matrix td.bad { background: #fee2e2; font-weight: 700; }
+</style>
+
+<div class="card">
+  <p class="muted" style="margin:0">The best approach out of everything I tried</p>
+  <h1 style="margin:4px 0 8px; font-size:26px">{{ best.label }}</h1>
+  <p style="margin:0">{{ about }}</p>
+  {% if threshold_text %}<p class="muted" style="margin:6px 0 0">{{ threshold_text }}</p>{% endif %}
+
+  <div class="bm-metrics">
+    <div class="primary"><div class="k">F2</div><div class="v">{{ pct(s.f2) }}</div>{{ ci(s.ci.f2) }}<div class="muted">recall counts twice as much as precision</div></div>
+    <div><div class="k">Accuracy</div><div class="v">{{ pct(s.accuracy) }}</div>{{ ci(s.accuracy_ci) }}<div class="muted">articles judged correctly</div></div>
+    <div><div class="k">Precision</div><div class="v">{{ pct(s.precision) }}</div>{{ ci(s.ci.precision) }}<div class="muted">flagged articles that are violations</div></div>
+    <div><div class="k">Recall</div><div class="v">{{ pct(s.recall) }}</div>{{ ci(s.ci.recall) }}<div class="muted">violations caught</div></div>
+    <div><div class="k">F1</div><div class="v">{{ pct(s.f1) }}</div>{{ ci(s.ci.f1) }}<div class="muted">precision and recall equally</div></div>
+  </div>
+  <p class="muted" style="margin:10px 0 0">Out of 100, on {{ s.n }} test articles ({{ s.yes }} violations, {{ s.no }} non-violations), {{ model }}.
+    The small numbers are 95% intervals.</p>
+</div>
+
+<div class="card">
+  <h2>What it got right and wrong</h2>
+  <table class="bm-matrix" style="max-width:560px">
+    <thead><tr><th></th><th>Flagged as violation</th><th>Not flagged</th></tr></thead>
+    <tbody>
+      <tr><th>Violation ({{ s.yes }})</th><td class="good">{{ num(s.tp) }} caught</td><td class="bad">{{ num(s.fn) }} missed</td></tr>
+      <tr><th>Non-violation ({{ s.no }})</th><td class="bad">{{ num(s.fp) }} false alarm{{ '' if s.fp == 1 else 's' }}</td><td class="good">{{ num(s.tn) }} correctly clear</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>By language and by source</h2>
+  <table>
+    <thead><tr><th>Articles</th><th class="num">Violations</th><th class="num">Non-violations</th><th class="num">Accuracy</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th><th class="num">F2</th></tr></thead>
+    <tbody>
+      {% for name, x in by_lang if x %}
+      <tr><td><strong>{{ name }}</strong></td><td class="num">{{ x.yes }}</td><td class="num">{{ x.no }}</td>
+        <td class="num">{{ pct(x.accuracy) }}</td><td class="num">{{ pct(x.precision) }}</td>
+        <td class="num">{{ pct(x.recall) }} {{ ci(x.ci.recall) }}</td><td class="num">{{ pct(x.f1) }}</td><td class="num">{{ pct(x.f2) }}</td></tr>
+      {% endfor %}
+      {% for x in by_source %}{% if x %}
+      <tr><td><strong>{{ 'Violations from the spreadsheets' if loop.index == 2 else 'Violations reviewed on the platform' }}</strong></td><td class="num">{{ x.n }}</td><td class="num">—</td>
+        <td class="num">—</td><td class="num">—</td><td class="num">{{ pct(x.recall) }} {{ ci(x.ci.recall) }}</td><td class="num">—</td><td class="num">—</td></tr>
+      {% endif %}{% endfor %}
+    </tbody>
+  </table>
+  <p class="muted" style="margin-top:8px">The source rows have violations only, so recall is the only score that applies.</p>
+</div>
+
+{% if runners_up %}
+<div class="card">
+  {% set tied = runners_up|selectattr('f2', 'ge', s.ci.f2[0])|list %}
+  <p class="muted" style="margin:0">Next best: {% for a in runners_up %}{{ a.label }} (F2 {{ pct(a.f2) }}){{ ', ' if not loop.last else '.' }}{% endfor %}
+    {% if tied %}{{ tied|length }} of them {{ 'is' if tied|length == 1 else 'are' }} within its 95% interval, so with {{ s.yes }} violations it is the best but not clearly better.{% endif %}
+    All approaches are ranked on <a href="{{ url_for('overview') }}">What I did</a>.</p>
+</div>
+{% endif %}
+{% endblock %}

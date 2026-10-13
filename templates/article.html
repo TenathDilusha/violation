@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}{{ a.heading or a.article_id }}{% endblock %}
+{% block content %}
+<div class="article-nav">
+  <a class="btn secondary" href="javascript:history.back()">← Back</a>
+  <span class="muted">{% if position %}{{ position }} / {{ total }}{% endif %}</span>
+  <span>
+    {% if prev_url %}<a class="btn secondary" href="{{ prev_url }}">‹ Prev</a>{% endif %}
+    {% if next_url %}<a class="btn secondary" href="{{ next_url }}">Next ›</a>{% endif %}
+  </span>
+</div>
+
+<div class="card">
+  <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px">
+    <span class="badge {{ a.status }}">{{ a.status }}</span>
+    {% if a.lang %}<span class="lang">{{ a.lang }}</span>{% endif %}
+    <span class="mono muted">{{ a.article_id }}</span>
+  </div>
+  {% if predictions %}
+  {% set expected = 'YES' if a.status in ('REVIEWED_VIOLATION', 'DECIDED_CRITICAL', 'DECIDED_NON_CRITICAL', 'EXTERNAL_VIOLATION') else 'NO' %}
+  <div style="display:flex; flex-wrap:wrap; gap:12px; margin:8px 0; padding:8px 12px; background:#f8fafc; border-radius:6px">
+    <span class="muted">LLM answers (expected <strong>{{ expected }}</strong>):</span>
+    {% for p in predictions %}
+      <span>
+        <span class="mono">{{ p.experiment }} · {{ p.model }}</span>
+        {% if p.answer in ('YES', 'NO') %}
+          <span class="ans {{ 'ok' if p.answer == expected else 'bad' }}" title="{{ p.raw_output }}">{{ p.answer }}</span>{% if p.confidence is not none %} <span class="conf" title="P(YES)">{{ '%.2f'|format(p.confidence) }}</span>{% endif %}
+        {% else %}
+          <span class="ans err" title="{{ p.error or p.raw_output }}">{{ p.answer }}</span>
+        {% endif %}
+      </span>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% for p in rule_predictions %}
+    {% set flagged = p.details.rules|selectattr('verdict', 'equalto', 'VIOLATION')|list %}
+    <details style="margin:8px 0" {{ 'open' if flagged }}>
+      <summary>
+        <strong>Per-rule checklist</strong> · <span class="mono">{{ p.experiment }} · {{ p.model }}</span> ·
+        {{ flagged|length }} VIOLATION,
+        {{ p.details.rules|selectattr('verdict', 'equalto', 'NO_VIOLATION')|list|length }} NO_VIOLATION
+      </summary>
+      <table style="margin-top:6px">
+        <thead><tr><th>Rule</th><th>Verdict</th>{% if p.details.rule_p %}<th title="P(VIOLATION) at the verdict token">P</th>{% endif %}<th>Evidence</th><th>Explanation</th></tr></thead>
+        <tbody>
+          {% for r in flagged %}
+          <tr>
+            <td><span class="mono">{{ r.rule_id }}</span><div class="muted" style="font-size:12px">{{ rule_titles.get(r.rule_id, '') }}</div></td>
+            <td><span class="verdict {{ r.verdict }}">{{ r.verdict }}</span></td>
+            {% if p.details.rule_p %}<td class="metric conf">{% set rp = p.details.rule_p.get(r.rule_id) %}{{ '—' if rp is none else '%.2f'|format(rp) }}</td>{% endif %}
+            <td>{{ r.evidence or '—' }}</td>
+            <td class="muted">{{ r.explanation }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="muted">Every rule: NO_VIOLATION.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+  {% endfor %}
+  {% if detections %}
+    <details style="margin:8px 0" open>
+      <summary><strong>Rule detection</strong> <span class="muted">— rules each model says this article breaks</span></summary>
+      <table style="margin-top:6px">
+        <thead><tr><th>Model · prompt</th><th>Rule</th><th>Evidence</th><th>Explanation</th></tr></thead>
+        <tbody>
+          {% for p in detections %}
+            {% if p.rules is none %}
+            <tr><td class="mono">{{ p.model }} · {{ p.experiment }}</td><td colspan="3"><span class="ans err" title="{{ p.error }}">ERROR</span></td></tr>
+            {% elif not p.rules %}
+            <tr><td class="mono">{{ p.model }} · {{ p.experiment }}</td><td colspan="3" class="muted">no rule</td></tr>
+            {% else %}
+            {% for r in p.rules %}
+            <tr>
+              <td class="mono">{% if loop.first %}{{ p.model }} · {{ p.experiment }}{% endif %}</td>
+              <td><span class="rule violation">{{ r.rule_id }}</span><div class="muted" style="font-size:12px">{{ rule_titles.get(r.rule_id, '') }}</div></td>
+              <td>{{ r.evidence or '—' }}</td>
+              <td class="muted">{{ r.explanation }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+  {% endif %}
+  {% if a.heading or a.content %}
+    <h2 style="margin:8px 0 16px">{{ a.heading or '(no heading)' }}</h2>
+    {% if highlighted %}<p class="muted" style="margin:-8px 0 12px">Highlighted: evidence quoted by the per-rule checklist (<mark class="ev violation">VIOLATION</mark>). Hover for the model and rule.</p>{% endif %}
+    <div class="article-body">{{ content_html }}</div>
+  {% else %}
+    <p class="missing">This article_id has no matching row in raw_articles.</p>
+  {% endif %}
+</div>
+{% endblock %}

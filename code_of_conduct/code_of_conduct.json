@@ -1,0 +1,236 @@
+{
+  "2.2.a": {
+    "title": "Unsourced or unverified claims",
+    "group": "ACCURACY",
+    "original_text": "Every reasonable attempt should be made by editors and individual journalists to verify the accuracy of reports prior to publication. Where such verification is not practicable, that fact shall be stated in the report.",
+    "obligation": "Verify reports before publication. If verification is not practicable, say so in the report.",
+    "applies_to": ["factual claims", "allegations", "statistics"],
+    "violation_conditions": [
+      "the article makes significant factual claims or allegations",
+      "no source or verification is given for them",
+      "the article does not state that verification was not practicable"
+    ],
+    "exceptions": ["VERIFICATION_NOT_PRACTICABLE_STATED"],
+    "evidence_cues": ["claims without 'according to', 'police said', named sources", "'it is reported that' with no source"]
+  },
+  "2.2.b": {
+    "title": "Non-credible source",
+    "group": "ACCURACY",
+    "original_text": "Every reasonable attempt should be made by editors and individual journalists to verify the accuracy of reports prior to publication.",
+    "obligation": "Sources relied on should be credible (e.g. an expert or authority on the subject).",
+    "applies_to": ["quoted sources", "expert claims", "health or scientific claims"],
+    "violation_conditions": [
+      "a claim relies on a source",
+      "the source, as described in the article, has no apparent credibility or expertise on the subject"
+    ],
+    "exceptions": [],
+    "evidence_cues": ["anonymous 'experts'", "social media posts as sole source", "unqualified people giving medical/technical claims"]
+  },
+  "2.2.c": {
+    "title": "Irrelevant source",
+    "group": "ACCURACY",
+    "original_text": "Every reasonable attempt should be made by editors and individual journalists to verify the accuracy of reports prior to publication.",
+    "obligation": "Sources should be relevant to the incident being reported.",
+    "applies_to": ["quoted sources"],
+    "violation_conditions": [
+      "a claim relies on a source",
+      "the source, as described in the article, has no connection to or knowledge of the incident"
+    ],
+    "exceptions": [],
+    "evidence_cues": ["quotes from people with no link to the event"]
+  },
+  "2.5": {
+    "title": "Mixing comment, conjecture and fact",
+    "group": "ACCURACY",
+    "original_text": "The press must distinguish clearly between comment, conjecture and fact.",
+    "obligation": "Clearly distinguish comment, conjecture and fact.",
+    "applies_to": ["news reports", "opinion", "speculation"],
+    "violation_conditions": [
+      "the article contains opinion or speculation",
+      "it is presented as established fact or not clearly marked as opinion"
+    ],
+    "exceptions": [],
+    "evidence_cues": ["loaded adjectives in news copy", "speculation stated as fact", "'it is clear that...' without evidence"]
+  },
+  "6.1.a": {
+    "title": "Insensitive or sensational treatment of shocking issues",
+    "group": "HARM_SENSITIVITY",
+    "original_text": "In dealing with social issues of a particularly shocking or emotionally painful nature - such as atrocity, violence, drug abuse, brutality, sadism, sexual salacity and obscenity - the press should take special care to present facts, opinions, photographs and graphics with due sensitivity and discretion, subject to its duty to publish in the public interest.",
+    "obligation": "Present shocking or painful issues with sensitivity and discretion.",
+    "applies_to": ["atrocity", "violence", "drug abuse", "brutality", "sadism", "sexual content", "obscenity"],
+    "violation_conditions": [
+      "the article covers a shocking or emotionally painful issue",
+      "facts or opinions are presented sensationally, graphically or without discretion",
+      "the level of detail is not justified by the public interest"
+    ],
+    "exceptions": ["PUBLIC_INTEREST"],
+    "evidence_cues": ["gory descriptions", "sensational headlines", "lurid adjectives"]
+  },
+  "6.1.b": {
+    "title": "Excessive detail of method of murder",
+    "group": "HARM_SENSITIVITY",
+    "original_text": "In dealing with social issues of a particularly shocking or emotionally painful nature - such as atrocity, violence, drug abuse, brutality, sadism, sexual salacity and obscenity - the press should take special care to present facts, opinions, photographs and graphics with due sensitivity and discretion, subject to its duty to publish in the public interest.",
+    "obligation": "Do not report excessive detail of how a murder was committed.",
+    "applies_to": ["murder", "killing", "homicide"],
+    "violation_conditions": [
+      "the article reports a murder",
+      "it gives excessive detail of the method (weapons, step-by-step actions, injuries)"
+    ],
+    "exceptions": ["PUBLIC_INTEREST"],
+    "evidence_cues": ["number and location of stab wounds", "step-by-step account of the killing"]
+  },
+  "6.1.c": {
+    "title": "Excessive detail of method of criminal conduct",
+    "group": "HARM_SENSITIVITY",
+    "original_text": "In dealing with social issues of a particularly shocking or emotionally painful nature - such as atrocity, violence, drug abuse, brutality, sadism, sexual salacity and obscenity - the press should take special care to present facts, opinions, photographs and graphics with due sensitivity and discretion, subject to its duty to publish in the public interest.",
+    "obligation": "Do not report excessive detail of how a crime was committed (a how-to).",
+    "applies_to": ["robbery", "fraud", "drug manufacture", "weapons", "cybercrime"],
+    "violation_conditions": [
+      "the article reports a crime",
+      "it gives enough method detail that it could serve as instructions or glamorise the crime"
+    ],
+    "exceptions": ["PUBLIC_INTEREST"],
+    "evidence_cues": ["detailed techniques", "quantities, tools and procedures"]
+  },
+  "6.2.i": {
+    "title": "Naming victims of sex crimes",
+    "group": "CRIME_IDENTIFICATION",
+    "original_text": "In reporting accounts of crime or criminal case, publications shall not, unless it is both legally permitted and in the public interest - i. Name victims of sex crimes.",
+    "obligation": "Do not name (or otherwise identify) victims of sex crimes.",
+    "applies_to": ["rape", "sexual abuse", "sexual harassment", "victim identity"],
+    "violation_conditions": [
+      "the article reports a sex crime",
+      "the victim is named or identifiable (name, photo, address, school, relationship to named person)",
+      "it is not both legally permitted and in the public interest"
+    ],
+    "exceptions": ["LEGALLY_PERMITTED", "PUBLIC_INTEREST"],
+    "evidence_cues": ["victim's name", "victim's village/school/address", "naming a relative that identifies the victim"],
+    "notes": "Both exceptions must hold together (legally permitted AND public interest)."
+  },
+  "6.2.ii": {
+    "title": "Naming young accused persons",
+    "group": "CRIME_IDENTIFICATION",
+    "original_text": "In reporting accounts of crime or criminal case, publications shall not, unless it is both legally permitted and in the public interest - ii. Knowingly name any young person accused of a criminal offence who is below the age of 16 and who has no previous convictions.",
+    "obligation": "Do not knowingly name an accused person under 16 with no previous convictions.",
+    "applies_to": ["juvenile suspects", "accused minors"],
+    "violation_conditions": [
+      "the person is accused of a criminal offence",
+      "the person is below 16",
+      "the person is named or identifiable",
+      "the article gives no indication of previous convictions"
+    ],
+    "exceptions": ["LEGALLY_PERMITTED", "PUBLIC_INTEREST"],
+    "evidence_cues": ["name with age under 16", "school or address of a juvenile suspect"],
+    "notes": "Covers accused persons only. Identifying child victims falls under 7.4."
+  },
+  "6.2.iii": {
+    "title": "Identifying relatives of accused or convicted persons",
+    "group": "CRIME_IDENTIFICATION",
+    "original_text": "In reporting accounts of crime or criminal case, publications shall not, unless it is both legally permitted and in the public interest - iii. Identify without consent relatives of a person accused or convicted of a crime.",
+    "obligation": "Do not identify relatives of an accused or convicted person without their consent.",
+    "applies_to": ["family members of suspects or convicts"],
+    "violation_conditions": [
+      "the article reports on a person accused or convicted of a crime",
+      "a relative of that person is identified",
+      "there is no indication of the relative's consent"
+    ],
+    "exceptions": ["CONSENT", "LEGALLY_PERMITTED", "PUBLIC_INTEREST"],
+    "evidence_cues": ["'son of', 'wife of' with names"]
+  },
+  "6.3": {
+    "title": "Promoting communal or religious discord",
+    "group": "DISCRIMINATION",
+    "original_text": "A journalist shall not knowingly or wilfully promote communal or religious discord or violence.",
+    "obligation": "Do not knowingly promote communal or religious discord or violence.",
+    "applies_to": ["ethnic groups", "religious groups", "communal tensions"],
+    "violation_conditions": [
+      "the article concerns ethnic, communal or religious groups",
+      "it frames content in a way that incites or promotes discord or violence between them"
+    ],
+    "exceptions": [],
+    "evidence_cues": ["blaming an entire community", "inflammatory language", "calls to action against a group"]
+  },
+  "6.4.i": {
+    "title": "Prejudicial or pejorative references",
+    "group": "DISCRIMINATION",
+    "original_text": "The press must avoid prejudicial or pejorative reference to a person's race, colour, religion, sex or to any physical or mental illness or disability.",
+    "obligation": "Avoid prejudicial or pejorative references to race, colour, religion, sex, illness or disability.",
+    "applies_to": ["race", "colour", "religion", "sex", "physical illness", "mental illness", "disability"],
+    "violation_conditions": [
+      "the article refers to one of these characteristics",
+      "the reference is prejudicial or pejorative"
+    ],
+    "exceptions": [],
+    "evidence_cues": ["slurs", "derogatory terms for mental illness or disability", "stereotypes"]
+  },
+  "6.4.ii": {
+    "title": "Irrelevant identity details",
+    "group": "DISCRIMINATION",
+    "original_text": "It must avoid publishing details of a person's race, caste, religion, sexual orientation, physical or mental illness or disability unless these are directly relevant to the story.",
+    "obligation": "Do not mention race, caste, religion, sexual orientation, illness or disability unless directly relevant.",
+    "applies_to": ["race", "caste", "religion", "sexual orientation", "physical illness", "mental illness", "disability"],
+    "violation_conditions": [
+      "the article mentions one of these characteristics of a person",
+      "the characteristic is not directly relevant to the story"
+    ],
+    "exceptions": ["DIRECTLY_RELEVANT"],
+    "evidence_cues": ["'a Muslim man', 'a Tamil youth' in crime stories where it's irrelevant", "mentioning mental illness of a suspect without relevance"]
+  },
+  "6.5": {
+    "title": "Excessive detail of suicide method",
+    "group": "HARM_SENSITIVITY",
+    "original_text": "When reporting suicide, care should be taken not to give excessive detail of the method used.",
+    "obligation": "Do not give excessive detail of the method used in a suicide.",
+    "applies_to": ["suicide", "attempted suicide", "self-harm"],
+    "violation_conditions": [
+      "the article reports a suicide or attempted suicide",
+      "it gives excessive detail of the method (substance, dose, location, means, step-by-step)"
+    ],
+    "exceptions": [],
+    "evidence_cues": ["named poison or drug and amount", "description of how/where the act was done", "suicide method in the headline"]
+  },
+  "7.1": {
+    "title": "Intrusion into private and family life",
+    "group": "PRIVACY",
+    "original_text": "The press shall exercise particular care to respect the private and family lives of individuals, their home, health and correspondence, including digital communications. Intrusions on this right to privacy without consent could be justified only by some over-riding public interest.",
+    "obligation": "Respect private and family life, home, health and correspondence (including digital communications).",
+    "applies_to": ["personal information", "medical information", "home address", "contact information", "private messages", "family matters"],
+    "violation_conditions": [
+      "private information is disclosed (family life, home, health, correspondence)",
+      "the individual is identifiable",
+      "there is no indication of consent",
+      "there is no overriding public-interest justification"
+    ],
+    "exceptions": ["CONSENT", "PUBLIC_INTEREST"],
+    "evidence_cues": ["home address", "phone number", "medical diagnosis of a named person", "quoted private messages"]
+  },
+  "7.4": {
+    "title": "Intrusion into children's private lives",
+    "group": "PRIVACY",
+    "original_text": "Young people should be free to complete their school years without unnecessary intrusion. Publication of material concerning a child's private life would be acceptable only if there was some exceptional public interest other than the fame, notoriety or position of his or her family or guardian.",
+    "obligation": "Do not publish material about a child's private life without exceptional public interest.",
+    "applies_to": ["children", "students", "minors", "child victims", "children of famous people"],
+    "violation_conditions": [
+      "the article concerns a child's private life",
+      "the child is identifiable",
+      "there is no exceptional public interest (the family's fame does not count)"
+    ],
+    "exceptions": ["PUBLIC_INTEREST"],
+    "evidence_cues": ["child's name with school", "details of a child's family problems"],
+    "notes": "Public interest here must be exceptional, a higher bar than other rules."
+  },
+  "7.5": {
+    "title": "Intrusion into people in hospitals or institutions",
+    "group": "PRIVACY",
+    "original_text": "The restrictions on intruding into privacy are particularly relevant to inquiries about individuals in hospitals or similar institutions, unless it serves the public interest.",
+    "obligation": "Take particular care with privacy of people in hospitals or similar institutions.",
+    "applies_to": ["hospital patients", "people in care homes, rehab, prisons or similar institutions"],
+    "violation_conditions": [
+      "the article concerns an identifiable person in a hospital or similar institution",
+      "it discloses private details about them",
+      "there is no public-interest justification"
+    ],
+    "exceptions": ["CONSENT", "PUBLIC_INTEREST"],
+    "evidence_cues": ["patient's name with ward/condition"]
+  }
+}

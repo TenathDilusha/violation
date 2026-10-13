@@ -1,0 +1,410 @@
+{
+  "_note": "gpt-4.1's span suggestions (zero_shot + few_shot + per_rule) checked by hand against code_of_conduct.json, one entry per violation article. rules: the codes kept or added, with a reason and the exact excerpts to highlight (the first match in the heading or content is used). removed: gpt-4.1 codes or highlights that were dropped, with the reason. Used as the correct codes and highlights of articles with no row in violations.manual_annotations.",
+  "019efb98-e0d1-71bd-89b7-d7908d274dab": {
+    "notes": "Reuters wire copy. The reviewers' reason isn't recorded; these are the claims with no source and the writer's own analysis.",
+    "rules": {
+      "2.2.a": {
+        "reason": "Claims about what Gulf leaders and allies feel are given with no source.",
+        "spans": [
+          {"part": "content", "excerpt": "many were surprised and disappointed by the terms of the accord"},
+          {"part": "content", "excerpt": "U.S. regional allies are especially concerned that Iran could use the proposed $300 billion reconstruction fund to rebuild its military"}
+        ]
+      },
+      "2.5": {
+        "reason": "The writer's own judgement and speculation, written as news.",
+        "spans": [
+          {"part": "content", "excerpt": "Rubio's mission is delicate"},
+          {"part": "content", "excerpt": "provoking questions about the long-term viability of an expanding global financial centre so close to a country that attacked it"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "2.2.a", "excerpt": "Last week, Reuters reported that Iran set up secretive new cells in Iraq … Reuters reported", "reason": "Both sentences are attributed to Reuters reporting, so they are sourced."}
+    ]
+  },
+  "019f01ee-ce48-7026-b4e0-28a287085d56": {
+    "rules": {
+      "6.2.iii": {
+        "reason": "Identifies the accused Rakitha Rajapaksa's father (former minister) and the accused 'Harak Kata''s wife by name, with no sign of consent.",
+        "spans": [
+          {"part": "content", "excerpt": "හිටපු අධිකරණ අමාත්‍ය විජයදාස රාජපක්ෂ මහතාගේ පුත්‍රයා වන නීතිඥ රඛිත රාජපක්ෂ මහතා"},
+          {"part": "content", "excerpt": "හරක් කටාගේ බිරිඳ වන මධුෂිකා මධුවන්ති යන අයගෙන්"}
+        ]
+      },
+      "2.2.a": {
+        "reason": "The bribery is stated as 'has been revealed' with no source for who revealed it. Weak: the arrest by the bribery commission implies the source.",
+        "spans": [
+          {"part": "content", "excerpt": "මෙම අල්ලස් ලබාගෙන ඇති බව අනාවරණය වී තිබේ"}
+        ]
+      }
+    }
+  },
+  "019f01f4-9112-7878-8e98-789eede9b810": {
+    "rules": {
+      "7.1": {
+        "reason": "The headline calls the suspect, a married man, the dead physiotherapist's lover: a private relationship of an identifiable victim (profession and town given), stated as fact with no source.",
+        "spans": [
+          {"part": "heading", "excerpt": "පෙම්වතාට"}
+        ]
+      },
+      "6.1.b": {
+        "reason": "States the killing method (strangulation). Weak: one phrase from the post-mortem, not a step-by-step account.",
+        "spans": [
+          {"part": "content", "excerpt": "පශ්චාත් මරණ පරීක්ෂණයෙන් හෙළිවී ඇත්තේ ගෙල සිර කිරීමකින් මෙම මරණය සිදුකර ඇති බවයි"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.2.iii", "excerpt": "ඔහුගේ බිරිඳ", "reason": "The main suspect's wife is herself arrested and detained for questioning, so she is an accused person, not an uninvolved relative."}
+    ]
+  },
+  "019f01ff-b34e-70e3-baca-61259bf1246e": {
+    "rules": {
+      "6.2.iii": {
+        "reason": "The suspect's child is mentioned as travelling with the fugitive couple, with no sign of consent.",
+        "spans": [
+          {"part": "content", "excerpt": "සැකකරුගේ බිරිඳ සහ දරුවා"}
+        ]
+      },
+      "7.4": {
+        "reason": "Places the suspect's child on the bus at the arrest; no exceptional public interest in the child.",
+        "spans": [
+          {"part": "content", "excerpt": "සැකකරුගේ බිරිඳ සහ දරුවා වැල්ලවත්තේ සිට යාපනේ දක්වා ධාවනය වූ බස් රථයේ ගමන් කරමින් සිටියදී"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.2.iii", "excerpt": "ඔහුගේ බිරිඳ", "reason": "The wife is one of the detained suspects ('සැකකාර අඹුසැමි යුවළ'), so she is accused herself."}
+    ]
+  },
+  "019f0200-c917-7df4-80cb-a3da156c1a8c": {
+    "notes": "Weak article for a violation: everything is attributed to the Minister.",
+    "rules": {
+      "2.2.a": {
+        "reason": "Large statistics repeated from the Minister's speech with no other source or check. Weak: they are attributed.",
+        "spans": [
+          {"part": "content", "excerpt": "it contributes more than 20 per cent of Sri Lanka’s Gross Domestic Product (GDP) and provides employment to nearly two million people"},
+          {"part": "content", "excerpt": "around 65,000 businesses are estimated to be registered in the country"},
+          {"part": "content", "excerpt": "an estimated US$780 million leaving the country through such channels"}
+        ]
+      },
+      "2.5": {
+        "reason": "'underscoring the need for stronger regulation' is the writer's inference appended to a reported fact.",
+        "spans": [
+          {"part": "content", "excerpt": "underscoring the need for stronger regulation of online commerce"}
+        ]
+      }
+    }
+  },
+  "019f0205-2081-7fe5-bdc8-4025207e538a": {
+    "rules": {
+      "6.2.iii": {
+        "reason": "Identifies the accused's father, the former Justice Minister, in the headline and the text.",
+        "spans": [
+          {"part": "heading", "excerpt": "Wijeyadasa Rajapakshe’s son"},
+          {"part": "content", "excerpt": "Attorney-at-Law Rakitha Nirmala Rajapaksa, the son of former Minister of Justice, Prisons Affairs and Constitutional Reforms Wijeyadasa Rajapakshe"}
+        ]
+      }
+    }
+  },
+  "019f0208-8b60-7648-b0d6-347317df48d1": {
+    "rules": {
+      "6.2.iii": {
+        "reason": "Identifies the father (former President) of a man questioned in a criminal investigation. Weak: he gave a statement and is not called a suspect.",
+        "spans": [
+          {"part": "content", "excerpt": "the son of former President Mahinda Rajapaksa"}
+        ]
+      }
+    }
+  },
+  "019f0216-a6a7-79e3-be71-9905285a2b52": {
+    "notes": "Doesn't clearly break any of the 17 rules; 6.1.c is the closest.",
+    "rules": {
+      "6.1.c": {
+        "reason": "Exact quantity and where it was hidden. Weak: this is standard seizure reporting, not a how-to.",
+        "spans": [
+          {"part": "content", "excerpt": "35,265 grammes (35.265 kilogrammes) of Hashish concealed inside the baggage"}
+        ]
+      }
+    }
+  },
+  "019f0216-f77a-7f1b-a30e-5275befa5e03": {
+    "notes": "No breach of the 17 text-checkable rules found (gpt-4.1 found none either). The reviewers' reason may be outside code_of_conduct.json.",
+    "rules": {}
+  },
+  "019f021b-0c3d-766b-941b-9551ebbae7e2": {
+    "notes": "An editorial, so opinion is expected, but allegations of bribery and generalisations are stated as fact with no evidence.",
+    "rules": {
+      "2.5": {
+        "reason": "Opinion and speculation about school heads, parents and employers written as fact.",
+        "spans": [
+          {"part": "content", "excerpt": "The whole process is not without its share of bribery and malpractices. Not all School Heads are above board in this respect. Bribery for school admissions are not always based on monetary considerations. It can assume different forms. Most School Heads (certainly not all) are vulnerable in this respect and are known to fall prey to the temptation"},
+          {"part": "content", "excerpt": "Poor salaries of both school principals and teachers in State-run schools too has been a contributory factor"},
+          {"part": "content", "excerpt": "The practice is known to be mostly prevalent in private or international schools where no clear supervision is maintained and where the School Heads call the shots"},
+          {"part": "content", "excerpt": "Of course, money is extracted from parents seeking admission of their children to the leading schools under different guises"},
+          {"part": "content", "excerpt": "It is, on the face of it, usually for the development of the school’s infrastructure such as construction of new buildings under the pretext of admitting more students or helping out poor students"},
+          {"part": "content", "excerpt": "Most parents are certainly not unaware of these false pretexts, but go along for the sake of a better future for their offspring"},
+          {"part": "content", "excerpt": "Some employers pick their recruits merely going by the name of the school dispensing with academic qualifications as the old school tie still does wonders"},
+          {"part": "content", "excerpt": "their knowledge of the King’s language is often below par"},
+          {"part": "content", "excerpt": "It is this kind of discrimination that led to the first youth uprising in 1971 which caused the loss of hundreds of young lives and the destruction of the economy"}
+        ]
+      },
+      "2.2.a": {
+        "reason": "Allegations of bribery and extortion by school heads with no source or evidence.",
+        "spans": [
+          {"part": "content", "excerpt": "Most School Heads (certainly not all) are vulnerable in this respect and are known to fall prey to the temptation"},
+          {"part": "content", "excerpt": "The practice is known to be mostly prevalent in private or international schools where no clear supervision is maintained and where the School Heads call the shots"},
+          {"part": "content", "excerpt": "Of course, money is extracted from parents seeking admission of their children to the leading schools under different guises"},
+          {"part": "content", "excerpt": "Some employers pick their recruits merely going by the name of the school dispensing with academic qualifications as the old school tie still does wonders"}
+        ]
+      }
+    }
+  },
+  "019f1a5a-d74c-70c3-86df-1b731ba1badd": {
+    "rules": {
+      "2.5": {
+        "reason": "The headline states as fact that young drivers' carelessness is the main cause of road accidents. It is not attributed, and the DIG never says 'main cause'.",
+        "spans": [
+          {"part": "heading", "excerpt": "මාර්ග අනතුරුවලට ප්‍රධානතම හේතුව තරුණ රියදුරන්ගේ අපරික්ෂාකාරි බවයි"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "2.2.a", "excerpt": "මේ වෙනකොට මාර්ග රිය අනතුරුවලින් සිදු වූ මරණ සංඛ්‍යාව … 99%ක වැඩිවීමක් දක්නට ලැබෙනවා", "reason": "The figures are quoted from the DIG in charge of traffic, a named and credible source."},
+      {"rule_id": "6.4.i", "excerpt": "මේ අය තමයි රථ වාහන නීති ගැන … රිය පදවන්නේ", "reason": "Age is not one of the characteristics 6.4 covers (race, colour, religion, sex, caste, sexual orientation, illness, disability)."},
+      {"rule_id": "6.4.ii", "excerpt": "විශේෂයෙන්ම වයස අවුරුදු 18, 20 සහ 22 වයස් කාණ්ඩවල අය", "reason": "Age is not covered by 6.4, and the age groups are the point of the story."}
+    ]
+  },
+  "019f1a6e-2b13-7bdb-91db-9926a0b00a5b": {
+    "notes": "Same story as 019f1a5a.",
+    "rules": {
+      "2.5": {
+        "reason": "The headline states as fact that young drivers' carelessness is the main cause of road accidents. It is not attributed, and the DIG never says 'main cause'.",
+        "spans": [
+          {"part": "heading", "excerpt": "මාර්ග අනතුරුවලට ප්‍රධානතම හේතුව තරුණ රියදුරන්ගේ අපරික්ෂාකාරි බවයි"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "2.2.a", "excerpt": "මේ වෙනකොට මාර්ග රිය අනතුරුවලින් සිදු වූ මරණ සංඛ්‍යාව … 99%ක වැඩිවීමක් දක්නට ලැබෙනවා", "reason": "The figures are quoted from the DIG in charge of traffic, a named and credible source."}
+    ]
+  },
+  "019f3e91-18b4-7b09-8450-0af320455572": {
+    "notes": "Human annotation in slpi_prod_v2: 6.1.b on 'පිහියකින් ගෙලකපා ඝාතනය කළ බවට'.",
+    "rules": {
+      "6.1.b": {
+        "reason": "Weapon and method (throat cut with a knife) in the headline and text, and the knife found beside the body.",
+        "spans": [
+          {"part": "heading", "excerpt": "ගෙල කපා මරලා"},
+          {"part": "content", "excerpt": "පිහියකින් ගෙලකපා ඝාතනය කළ බවට සැක"},
+          {"part": "content", "excerpt": "ඝාතනයට යොදාගත් බවට සැක පිහියක් හමුව තිබේ"}
+        ]
+      },
+      "6.1.a": {
+        "reason": "The strong stench from the room and breaking the door to find the body: distressing detail with no public-interest value.",
+        "spans": [
+          {"part": "content", "excerpt": "නිවසේ කාමරය තුලින් අධික දුර්ඝන්ධයක් හමන බැවින් දොර කඩා පරීක්ෂා කිරීමේදී මළසිරුර"}
+        ]
+      },
+      "7.1": {
+        "reason": "The named victim's home (rented room, street and area) is given.",
+        "spans": [
+          {"part": "content", "excerpt": "පානදුර ගොරකාන ගල්කනුව පාරේ නිවසන කුලී කාමරයක පදිංචිව සිට ඇති"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.2.i", "excerpt": "නදුනි සහශ්‍රි කුරේ", "reason": "No sex crime is reported, so naming the victim isn't covered by 6.2.i."},
+      {"rule_id": "7.1", "excerpt": "නදුනි සහශ්‍රි කුරේ නමැති 26 හැවිරිදි තරුණියක / … දොර කඩා පරීක්ෂා කිරීමේදී මළසිරුර", "reason": "Naming a murder victim is normal crime reporting; the discovery detail fits 6.1.a better, so it moved there."}
+    ]
+  },
+  "019f3e91-3efc-71a4-b5a1-56a15c12202e": {
+    "rules": {
+      "2.5": {
+        "reason": "The lead uses loaded words ('හිතුවක්කාර අයුරින්' arbitrarily, 'නීතියේ ආධිපත්‍ය බිද දැමීම' breaking the rule of law) that read as the paper's own. Weak: the long sentence is attributed to Namal Rajapaksa at the end.",
+        "spans": [
+          {"part": "content", "excerpt": "හිතුවක්කාර අයුරින් ඉහළ අධිකරණ විනිසුරුවන්ගේ ධූර කාලය දීර්ඝ කිරීමට උත්සහ දරමින් නීතියේ ආධිපත්‍ය බිද දැමීමට එරෙහිව"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "2.5", "excerpt": "ආණ්ඩුව මේ වන විට … අපගේ විශ්වාසයයි / මෙම ක්‍රියාව … පෙනී යයි", "reason": "Quoted from the letter and marked as its writer's belief ('අපගේ විශ්වාසයයි', 'පෙනී යයි')."},
+      {"rule_id": "2.2.a", "excerpt": "ආණ්ඩුව මේ වන විට … / දැනටමත් මේ සම්බන්ධයෙන් ශ්‍රී ලංකා නීතිඥ සංගමය …", "reason": "These are the letter's claims, attributed to it; the bar associations' objections are public record."}
+    ]
+  },
+  "019f43b8-4560-752a-b093-aae02c2a75ac": {
+    "rules": {
+      "6.1.b": {
+        "reason": "Describes how the woman was killed (beaten and hacked).",
+        "spans": [
+          {"part": "content", "excerpt": "පහරදී කපා කොටා කාන්තාවක ඝාතනය කර"}
+        ]
+      },
+      "6.1.a": {
+        "reason": "Flippant slang headline about a killing and eight death sentences ('කතක මැරුවාට අටක් පෝරකයට').",
+        "spans": [
+          {"part": "heading", "excerpt": "කතක මැරුවාට අටක් පෝරකයට"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.1.b", "excerpt": "විත්තිකරුවන්ගේ ප්‍රාණය නිරුද්ධ වනතුරු … බෙල්ලෙන් එල්ලා තැබීමටද නියම කළේය", "reason": "This is the standard wording of a death sentence, not the method of the murder."}
+    ]
+  },
+  "019f6290-aa5a-705b-86a3-c370eeb1ec0a": {
+    "rules": {
+      "2.5": {
+        "reason": "The headline states the motive (selling drugs to make his wife a lawyer) as fact, without attribution.",
+        "spans": [
+          {"part": "heading", "excerpt": "බිරිය නීතිඥවරියක් කරන්න සැමියා කුඩු විකුණලා"}
+        ]
+      },
+      "6.1.c": {
+        "reason": "Exact drug quantities and how the drugs were carried and distributed (front of a van, brought from Welisara).",
+        "spans": [
+          {"part": "content", "excerpt": "අයිස් මත්ද්‍රව්‍ය කිලෝ ගෑම් 01 ක් ගෑම් 06 යි මිලිගෑම් 350 ක් හා සැකකාර ගුරුවරිය සන්තකයේ තිබී අයිස් මත්ද්‍රව්‍ය ගෑම් 149 යි මිලිගෑම් 150 ක්"},
+          {"part": "content", "excerpt": "වෑන් රථයක ඉදිරිපස තබාගෙන මත්ද්‍රව‍ය ජාවාරමේ යෙදෙමින්"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "7.1", "excerpt": "ජාත්‍යන්තර පාසලක ගුරුවරියක් ලෙස රැකියාව කරන 25 හැවිරිදි බිරිඳ / නීතිඥවරියක කිරීමට අවශ්‍ය මුදල් සොයා ගැනීමට", "reason": "The wife is herself arrested with drugs; her job and the alleged motive are part of the crime story."}
+    ]
+  },
+  "019f6292-d32d-78c0-930f-d6650d9f72f1": {
+    "rules": {
+      "6.1.b": {
+        "reason": "Weapon and manner of the killing (beaten with an iron bar).",
+        "spans": [
+          {"part": "content", "excerpt": "තම මව්පියන්ට යකඩයකින් පහරදී කුරිරු ලෙස ඝාතනය කළැයි"}
+        ]
+      },
+      "6.1.a": {
+        "reason": "Sensational headline ('son who went to hell after killing mother and father') and 'කුරිරු ලෙස' (cruelly).",
+        "spans": [
+          {"part": "heading", "excerpt": "මවයි - පියයි මරා නිරයට ගිය පුතා"},
+          {"part": "content", "excerpt": "තම මව්පියන්ට යකඩයකින් පහරදී කුරිරු ලෙස ඝාතනය කළැයි"}
+        ]
+      },
+      "2.5": {
+        "reason": "The son is only a suspect but is called the killer ('ඝාතක පුතා') and 'went to hell', as if guilt were established.",
+        "spans": [
+          {"part": "heading", "excerpt": "නිරයට ගිය පුතා"},
+          {"part": "content", "excerpt": "ඝාතක පුතා"}
+        ]
+      },
+      "7.1": {
+        "reason": "Health information (heavy drug addiction) about the son, identifiable through his named parents. Weak: police give it as background.",
+        "spans": [
+          {"part": "content", "excerpt": "ඝාතක පුතා දැඩි ලෙස මත් ද්‍රව්‍යවලට ඇබ්බැහි වී සිටි අයකු බවද"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.1.b", "excerpt": "මවට පහර දී බරපතල ලෙස හිසට තුවාල සිදු කිරීමේ චෝදනාව මත", "reason": "This is an earlier assault charge, not the murder method."},
+      {"rule_id": "7.1", "excerpt": "කිරැලවැල්කටුව ප්‍රදේශයේ පදිංචි වන්නි ආරච්චිගේ සරත් (58) … මාපිය දෙපළක බව", "reason": "Naming murder victims and their area is normal crime reporting."}
+    ]
+  },
+  "019f8bd4-21f3-7671-8320-7dac2284ac17": {
+    "notes": "Human annotation in slpi_prod_v2: 6.1.b on 'පිහියකින් බෙල්ල කපා මනුෂ්‍ය ඝාතනයක් කළ'.",
+    "rules": {
+      "6.1.b": {
+        "reason": "Weapon and method (throat cut with a knife), also in the headline.",
+        "spans": [
+          {"part": "heading", "excerpt": "බෙල්ල කපා මැරුවාට"},
+          {"part": "content", "excerpt": "පිහියකින් බෙල්ල කපා මනුෂ්‍ය ඝාතනයක් කළ බවට"}
+        ]
+      }
+    }
+  },
+  "019fa06e-912d-7f88-b70d-acf96477dcf8": {
+    "rules": {
+      "6.1.b": {
+        "reason": "The method (throat cut) is given twice.",
+        "spans": [
+          {"part": "content", "excerpt": "ගෙල කපා මනුෂ්‍ය ඝාතනයක් සිදුකිරීම ඇතුළු"},
+          {"part": "content", "excerpt": "ඉකුත් 16 වැනි දින ගෙල කපා මනුෂ්‍ය ඝාතනයක්"}
+        ]
+      },
+      "2.5": {
+        "reason": "The headline says the soldier is involved in many crimes as fact; the text only says he is alleged to be ('බව කියන').",
+        "spans": [
+          {"part": "heading", "excerpt": "අපරාද රැසකට සම්බන්ධ යුද සෙබලෙක් මාට්ටු"}
+        ]
+      }
+    }
+  },
+  "019fafb5-18ee-7849-85e9-8d95b0f2c910": {
+    "notes": "Weak: the opinions are attributed. The only issue is the source.",
+    "rules": {
+      "2.2.b": {
+        "reason": "The only source for the claims about judicial independence is 'දිනන දකුණ සාමුහිකය', a group the article says nothing about, so its standing can't be judged.",
+        "spans": [
+          {"part": "content", "excerpt": "දිනන දකුණ සාමුහිකය පවසන්නේ"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "2.2.a", "excerpt": "අධිකරණයේ ස්වාධීනත්වය කෙලෙසීමේ මූලාරම්භයක් බවය", "reason": "Attributed to the group's statement ('පවසන්නේ')."},
+      {"rule_id": "2.5", "excerpt": "මෙය විධායකයේ අවශ්‍යතාවලට යටත්ව … උපක්‍රමශීලි පියවරක් බවයි", "reason": "Attributed to the statement ('එහි වැඩිදුරටත් දැක්වෙන්නේ'), so it is marked as their opinion."}
+    ]
+  },
+  "019fafb5-ffeb-70b8-91e7-2ad6dd516c7d": {
+    "rules": {
+      "6.1.b": {
+        "reason": "Weapon and method of the killing (struck with a machete-knife).",
+        "spans": [
+          {"part": "content", "excerpt": "මන්නා පිහියකින් පහරදී මෙම ඝාතනය සිදුකර ඇති බවට"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.2.iii", "excerpt": "ඔහුගේ සහෝදරියගේ පුත්‍රයා", "reason": "The sister's son is the suspect himself; the relative described is the victim, who is part of the story."}
+    ]
+  },
+  "019fafb6-5814-7459-b40d-e10c56247b43": {
+    "rules": {
+      "6.5": {
+        "reason": "Suicide method (his service T-56 rifle), place and time, including in the headline.",
+        "spans": [
+          {"part": "heading", "excerpt": "වෙඩි තියාගෙන"},
+          {"part": "content", "excerpt": "සිය රාජකාරී ගිනිඅවියෙන් වෙඩි තබාගෙන සියදිවි හානිකරගෙන තිබේ"},
+          {"part": "content", "excerpt": "අද (29) අලුයම පොලිස් ස්ථානයේ ප්‍රධාන ගේට්ටුව අසල දී මොහු සිය ටී-56 ගිනිඅවියකින් ‍මෙලෙස වෙඩි තබාගෙන තිබේ"}
+        ]
+      }
+    }
+  },
+  "01a011b9-3545-797a-b30c-e4116124cd29": {
+    "rules": {
+      "7.4": {
+        "reason": "A child's death, with age and area. Weak: the child isn't named.",
+        "spans": [
+          {"part": "content", "excerpt": "වයස අවුරුදු 12ක් වූ කොළඹ 09 ප්‍රදේශයේ දරුවෙකි"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.5", "excerpt": "12 හැවිරිදි දරුවකු එම මහල් නිවාසයෙන් ඇදවැටීමෙන් මියගොස් ඇතැයි පොලිසිය කියයි", "reason": "Nothing in the article suggests suicide; police report a fall."}
+    ]
+  },
+  "01a016e0-57a2-71ff-a149-3df99fd7f424": {
+    "rules": {
+      "6.1.b": {
+        "reason": "Weapon and step-by-step account: throat cut with a machete, body dragged to a canal and left.",
+        "spans": [
+          {"part": "content", "excerpt": "කුලී යතුරුපැදි රියදුරකුගේ ගෙල කපා ඝාතනය"},
+          {"part": "content", "excerpt": "සැකකරු විසින් මන්නයකින් එම කුලී යතුරුපැදි රියදුරුගේ ගෙල කපා අසල ඇල මාර්ගයකට ඇදගෙන ගොස් අතහැර දමා පලා ගොස් තිබුණු අතර"}
+        ]
+      },
+      "6.1.a": {
+        "reason": "Graphic account of the body being dragged to a canal and dumped.",
+        "spans": [
+          {"part": "content", "excerpt": "සැකකරු විසින් මන්නයකින් එම කුලී යතුරුපැදි රියදුරුගේ ගෙල කපා අසල ඇල මාර්ගයකට ඇදගෙන ගොස් අතහැර දමා පලා ගොස් තිබුණු අතර"}
+        ]
+      }
+    },
+    "removed": [
+      {"rule_id": "6.2.iii", "excerpt": "මෙම සැකකරුගේ පුතකු ද මේ වනවිට රක්ෂිත බන්ධනාගාර ගතකොට ඇත", "reason": "The son is himself accused of abetting and is remanded, so he is an accused person."}
+    ]
+  }
+}

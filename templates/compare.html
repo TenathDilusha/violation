@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+{% block title %}Model comparison{% endblock %}
+{% macro pct(v) %}{{ '—' if v is none else '%.0f%%'|format(v * 100) }}{% endmacro %}
+{% macro heat(v) %}{% if v is not none %}background: hsl({{ (v * 120)|round|int }}, 65%, 86%);{% endif %}{% endmacro %}
+{% macro num(v) %}{{ v|int if v == v|int else '%.1f'|format(v) }}{% endmacro %}
+{% macro counts(c) %}{% if c.n_repeats > 1 %}Mean of {{ c.n_repeats }} runs: {% endif %}TP {{ num(c.tp) }} · FP {{ num(c.fp) }} · TN {{ num(c.tn) }} · FN {{ num(c.fn) }}{% if c.errors %} · {{ num(c.errors) }} errors{% endif %}{% endmacro %}
+{% macro per_run(c, key) %}{% if c.n_repeats > 1 %}&#10;Per run: {% for s in c.repeats %}{{ pct(s[key]) }} (caught {{ s.tp }}, {{ s.fp }} false alarms){{ ', ' if not loop.last }}{% endfor %}{% endif %}{% endmacro %}
+{% macro spread(c, key) %}{% set rg = c.range.get(key) %}{% if c.n_repeats > 1 and rg %}<span class="conf">{% if rg[0] == rg[1] %}same in all {{ c.n_repeats }}{% else %}{{ '%.0f'|format(rg[0] * 100) }}–{{ '%.0f'|format(rg[1] * 100) }}{% endif %}</span>{% endif %}{% endmacro %}
+{% set task_short = {'llm': 'L', 'rule': 'R', 'span': 'H'} %}
+{% block content %}
+<style>
+  table.compact { font-size: 13px; }
+  table.compact th, table.compact td { padding: 6px 7px; }
+  table.compact .conf { display: block; }
+  td.metric .conf { display: block; }
+  .ans.mixed { background: #e0e7ff; color: #3730a3; }
+  td.top { background: #fef3c7 !important; box-shadow: inset 0 0 0 2px #f59e0b; }
+  .rank { display: inline-block; margin-left: 4px; padding: 0 5px; border-radius: 999px; background: #f59e0b; color: #fff; font-size: 10px; font-weight: 700; vertical-align: middle; }
+</style>
+<div class="card">
+  <form class="filters" method="get">
+    <select name="metric" onchange="this.form.submit()">
+      {% for key, label in metrics %}<option value="{{ key }}" {{ 'selected' if key == metric }}>{{ label }}</option>{% endfor %}
+    </select>
+    <select name="lang" onchange="this.form.submit()">
+      <option value="">All languages</option>
+      {% for l in langs %}<option value="{{ l }}" {{ 'selected' if l == lang }}>{{ l }}</option>{% endfor %}
+    </select>
+    {% if show %}<input type="hidden" name="show" value="{{ show }}">{% endif %}
+    <span class="muted" style="margin-left:auto">
+      Sources: <span class="mono">violations.llm_predictions</span>, <span class="mono">rule_predictions</span>, <span class="mono">span_predictions</span>
+    </span>
+  </form>
+  <p class="muted" style="margin:8px 0 0">
+    Every task is scored as a violation detector against the review status:
+    <strong>LLM results</strong> = the YES/NO answer; <strong>Rule detection</strong> = violation if the run named at least one rule;
+    <strong>Highlights</strong> = violation if the run highlighted at least one part of the article.
+    Sinhala and English articles are scored separately, each on the articles every task and prompt was run on in that language (few-shot example articles are left out),
+    so the numbers can differ slightly from the other pages. The combined tables are at the bottom.
+    Sinhala non-violations are human-reviewed; English non-violations are <span class="badge ASSUMED_NON_VIOLATION">ASSUMED_NON_VIOLATION</span>
+    (random unreviewed articles, since none have been reviewed), so English precision and accuracy are only approximate.
+    F2 weights recall twice as much as precision.
+  </p>
+  {% if r.max_repeats > 1 %}
+  <p class="muted" style="margin:8px 0 0">
+    <strong>Averaged over repeated runs:</strong> gpt-4.1 and SinLlama ran every task and prompt {{ r.max_repeats }} times on the same articles.
+    Each number is the mean over the runs, and the small line under it is the lowest–highest run (hover for every run).
+    Gemini ran once. SinLlama reads YES/NO probabilities and quotes greedily, so its runs come out the same;
+    gpt-4.1 answers some articles differently each time even at temperature 0.
+  </p>
+  {% endif %}
+  <p class="muted" style="margin:8px 0 0">
+    <strong><span class="mono">_si_code</span> columns</strong> (Sinhala section only): the same prompt with the code of conduct and the exception definitions in Sinhala
+    (<span class="mono">code_of_conduct/code_of_conduct_si.json</span>, <span class="mono">definitions_si.json</span>); the instructions, examples and rule ids are unchanged.
+    Each sits next to the English-code column of the same prompt. They are left out of the combined tables, which cover both languages.
+  </p>
+  <p class="muted" style="margin:8px 0 0">
+    <strong><span class="mono">zero_shot_v3</span></strong> (rule detection only, gpt-4.1, 3 runs): zero-shot plus a guide on applying the rules it misapplied,
+    written from zero_shot's failures (see <a href="{{ url_for('overview') }}">What I did</a>). It has no LLM-results or highlights run.
+  </p>
+  {% if top %}
+  <p style="margin:8px 0 0">
+    <strong>Overall top 4 approaches</strong> <span class="muted">(gpt-4.1, the {{ top[0].n }} common articles of both languages, F2, mean of 3 runs; the same 4 are highlighted on every page):</span>
+    {% for a in top %}<span class="rank">#{{ a.rank }}</span> {{ a.label }} <span class="muted">F2 {{ '%.0f'|format(a.f2 * 100) }}</span>{{ ' · ' if not loop.last }}{% endfor %}.
+  </p>
+  {% endif %}
+  <p class="muted" style="margin:8px 0 0">
+    <strong>Confidence scores</strong> ({{ model }} only, {{ score_methods|length + across_methods|length }} ways): instead of a yes/no, each article gets a number from the stored answers of a task,
+    e.g. the share of the 3 runs that flag it (<em>agreement</em>), the model's token probability of YES or of VIOLATION (<em>probability</em>; stored for the YES/NO prompts and for the per-rule prompts of every task),
+    or how many rules / passages it names (<em>count</em>). An article is a violation when its number is at least a threshold; each article is judged with the threshold that maximises F1
+    on all the other common articles (leave-one-out), so the threshold never sees the article it decides. The language sections reuse those decisions.
+    Picking the best of many scores on the same articles still flatters it a little.
+  </p>
+</div>
+
+{% if top_by_lang %}
+<div class="card" style="padding:12px 16px">
+  <h2 style="margin:0 0 4px">The overall top 4 approaches</h2>
+  <p class="muted" style="margin:0 0 10px">{{ model }}, ranked by F2 on the {{ top[0].n }} common articles of both languages, mean of 3 runs; the same 4 have a gold background and a
+    <span class="rank">#</span> badge in the tables below. The confidence scores are in the confidence-score grid under each model grid
+    (scores over all 3 tasks in its "All 3 tasks" column) and in the shaded rows of each "All metrics" table.</p>
+  <div style="overflow-x:auto">
+  <table class="compact">
+    <thead>
+      <tr><th rowspan="2">#</th><th rowspan="2">Approach</th>
+        {% for name in ['Both languages', 'Sinhala', 'English'] %}<th colspan="5" style="text-align:center;border-left:2px solid var(--border)">{{ name }}</th>{% endfor %}</tr>
+      <tr>{% for name in range(3) %}<th style="border-left:2px solid var(--border)">F2</th><th>Precision</th><th>Recall</th><th>Accuracy</th><th>Caught · false alarms</th>{% endfor %}</tr>
+    </thead>
+    <tbody>
+      {% for a in top_by_lang %}
+      <tr>
+        <td class="top"><span class="rank">#{{ a.rank }}</span></td>
+        <td><strong>{{ a.label }}</strong><div class="muted">{{ a.kind }}</div></td>
+        {% for c in a.cells %}
+        {% if c %}
+        <td class="metric" style="border-left:2px solid var(--border);{{ heat(c.f2) }}"><strong>{{ pct(c.f2) }}</strong></td>
+        <td class="metric">{{ pct(c.precision) }}</td><td class="metric">{{ pct(c.recall) }}</td><td class="metric">{{ pct(c.accuracy) }}</td>
+        <td class="metric">{{ num(c.tp) }}/{{ c.yes }} · {{ num(c.fp) }}</td>
+        {% else %}<td class="metric muted" style="border-left:2px solid var(--border)" colspan="5">—</td>{% endif %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="muted" style="margin:8px 0 0">All 4 are within each other's 95% intervals on both languages. Sinhala has only {{ top_by_lang[0].cells[1].yes if top_by_lang[0].cells[1] else 0 }} violations, so its numbers move a lot with a single article.
+    Full scores of #1: <a href="{{ url_for('best_model') }}">Best model</a>.</p>
+</div>
+{% endif %}
+
+{% macro grid(r) %}
+<div style="overflow-x:auto;margin-bottom:16px">
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Model</th>
+      {% for task, label in tasks %}<th colspan="{{ r.experiments|length }}" style="text-align:center;border-left:2px solid var(--border)">{{ label }}</th>{% endfor %}
+    </tr>
+    <tr>
+      {% for task, label in tasks %}{% for e in r.experiments %}<th class="mono" style="{{ 'border-left:2px solid var(--border)' if loop.first }}">{{ e }}</th>{% endfor %}{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in r.models %}
+    <tr>
+      <td class="mono"><strong>{{ m }}</strong></td>
+      {% for task, label in tasks %}{% for e in r.experiments %}
+        {% set c = r.cells.get((task, e, m)) %}
+        {% set rank = top_cells.get((task, e, m)) %}
+        <td class="metric{{ ' top' if rank }}" style="{{ heat(c[metric]) if c }}{{ 'border-left:2px solid var(--border);' if loop.first }}text-align:center"
+            title="{% if c %}{{ label }} · {{ e }} · {{ m }}&#10;{{ counts(c) }}&#10;Recall {{ pct(c.recall) }} · Precision {{ pct(c.precision) }} · F1 {{ pct(c.f1) }} · F2 {{ pct(c.f2) }} · Accuracy {{ pct(c.accuracy) }}{{ per_run(c, metric) }}{% endif %}">
+          {% if c %}{% if c[metric] is not none and c[metric] == r.best.get((task, metric)) %}<strong>{{ pct(c[metric]) }}</strong>{% else %}{{ pct(c[metric]) }}{% endif %}{% if rank %}<span class="rank">#{{ rank }}</span>{% endif %}{{ spread(c, metric) }}{% else %}<span class="muted" title="not run">—</span>{% endif %}
+        </td>
+      {% endfor %}{% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endmacro %}
+
+{% macro score_title(c, rank) %}Caught {{ num(c.tp) }} · missed {{ num(c.fn) }} · false alarms {{ num(c.fp) }} · correctly clear {{ num(c.tn) }}&#10;Recall {{ pct(c.recall) }} · Precision {{ pct(c.precision) }} · F1 {{ pct(c.f1) }} · F2 {{ pct(c.f2) }} · Accuracy {{ pct(c.accuracy) }}&#10;Threshold on all articles: {{ '%.3g'|format(c.threshold) }}{% if rank %}&#10;Overall top approach #{{ rank }}{% endif %}{% endmacro %}
+
+{% macro scores_grid(sc) %}
+{% if sc %}
+{% set best_v = sc.values()|map(attribute=metric)|select('number')|max %}
+<div style="overflow-x:auto;margin-bottom:16px">
+<table class="compact">
+  <thead><tr><th>{{ model }} confidence score</th>{% for task, label in tasks %}<th style="text-align:center">{{ label }}</th>{% endfor %}<th style="text-align:center;border-left:2px solid var(--border)">All 3 tasks</th></tr></thead>
+  <tbody>
+    {% for k, label, kind, ts in score_methods %}
+    <tr>
+      <td>{{ label }} <span class="muted">· {{ kind }}</span></td>
+      {% for task, tlabel in tasks %}{% set c = sc.get((k, task)) %}{% set rank = score_ranks.get((k, task)) %}
+      <td class="metric{{ ' top' if rank }}" style="{{ heat(c[metric]) if c }}text-align:center" title="{{ score_title(c, rank) if c }}">
+        {% if c %}{% if c[metric] == best_v %}<strong>{{ pct(c[metric]) }}</strong>{% else %}{{ pct(c[metric]) }}{% endif %}{% if rank %}<span class="rank">#{{ rank }}</span>{% endif %}
+        {% else %}<span class="muted" title="{{ 'No token probabilities for this prompt' if kind == 'probability' else 'Not defined for this task' }}">—</span>{% endif %}
+      </td>
+      {% endfor %}
+      <td class="metric muted" style="border-left:2px solid var(--border);text-align:center">—</td>
+    </tr>
+    {% endfor %}
+    {% for k, label, kind in across_methods %}{% set c = sc.get((k, 'all')) %}{% set rank = score_ranks.get((k, 'all')) %}
+    <tr>
+      <td>{{ label }} <span class="muted">· {{ kind }}</span></td>
+      {% for task, tlabel in tasks %}<td class="metric muted" style="text-align:center">—</td>{% endfor %}
+      <td class="metric{{ ' top' if rank }}" style="{{ heat(c[metric]) if c }}border-left:2px solid var(--border);text-align:center" title="{{ score_title(c, rank) if c }}">
+        {% if c %}{% if c[metric] == best_v %}<strong>{{ pct(c[metric]) }}</strong>{% else %}{{ pct(c[metric]) }}{% endif %}{% if rank %}<span class="rank">#{{ rank }}</span>{% endif %}{% else %}<span class="muted">—</span>{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro all_metrics(r, sc=none) %}
+<div style="overflow-x:auto;margin-bottom:16px">
+<table class="compact">
+  <thead>
+    <tr>
+      <th rowspan="2">Model · prompt</th>
+      {% for task, label in tasks %}<th colspan="{{ metrics|length }}" style="text-align:center;border-left:2px solid var(--border)">{{ label }}</th>{% endfor %}
+      <th rowspan="2" style="border-left:2px solid var(--border)" title="Articles where LLM results, rule detection and highlights give the same answer for this model and prompt">Tasks agree</th>
+    </tr>
+    <tr>
+      {% for task, label in tasks %}{% for key, mlabel in metrics %}<th style="{{ 'border-left:2px solid var(--border)' if loop.first }}">{{ mlabel }}</th>{% endfor %}{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for e, m in r.runs %}
+    <tr>
+      {% set first = r.cells.get((tasks[0][0], e, m)) %}
+      <td class="mono" style="white-space:nowrap"><strong>{{ m }}</strong><br>{{ e }}{% if first and first.n_repeats > 1 %}<br><span class="muted">mean of {{ first.n_repeats }} runs</span>{% endif %}</td>
+      {% for task, label in tasks %}
+        {% set c = r.cells.get((task, e, m)) %}
+        {% for key, mlabel in metrics %}
+        {% set rank = top_cells.get((task, e, m)) %}
+        <td class="metric{{ ' top' if rank }}" style="{{ 'border-left:2px solid var(--border)' if loop.first }}" title="{% if c %}{{ counts(c) }}{{ per_run(c, key) }}{% endif %}{% if rank %}&#10;Overall top approach #{{ rank }}{% endif %}">
+          {% if not c %}<span class="muted">—</span>
+          {% elif c[key] is not none and c[key] == r.best.get((task, key)) %}<strong>{{ pct(c[key]) }}</strong>
+          {% else %}{{ pct(c[key]) }}{% endif %}{% if rank and loop.first %}<span class="rank">#{{ rank }}</span>{% endif %}
+          {% if c and loop.first %}<span class="conf">{{ num(c.tp) }}/{{ num(c.tp + c.fn) }}</span>{% endif %}
+        </td>
+        {% endfor %}
+      {% endfor %}
+      {% set ag = r.agreement.get((e, m)) %}
+      <td class="metric" style="border-left:2px solid var(--border)">{{ pct(ag.share) }} <span class="conf">{{ ag.same }}/{{ ag.n }}</span></td>
+    </tr>
+    {% endfor %}
+    {% if sc %}
+    {% for k, label, kind, ts in score_methods %}
+    <tr style="background:#fafaf5">
+      <td style="white-space:nowrap"><span class="mono"><strong>{{ model }}</strong></span><br>score: {{ label }}<br><span class="muted">{{ kind }}, threshold chosen leave-one-out</span></td>
+      {% for task, tlabel in tasks %}
+        {% set c = sc.get((k, task)) %}{% set rank = score_ranks.get((k, task)) %}
+        {% for key, mlabel in metrics %}
+        <td class="metric{{ ' top' if rank }}" style="{{ 'border-left:2px solid var(--border)' if loop.first }}" title="{{ score_title(c, rank) if c }}">
+          {% if not c %}<span class="muted">—</span>
+          {% else %}{{ pct(c[key]) }}{% if rank and loop.first %}<span class="rank">#{{ rank }}</span>{% endif %}
+          {% if loop.first %}<span class="conf">{{ num(c.tp) }}/{{ c.yes }}</span>{% endif %}{% endif %}
+        </td>
+        {% endfor %}
+      {% endfor %}
+      <td class="metric muted" style="border-left:2px solid var(--border)">—</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+</div>
+{% endmacro %}
+
+{% if not r.runs %}
+  <div class="card muted">No results yet.</div>
+{% else %}
+{% if sections|length > 1 %}
+<div class="card" style="padding:10px 16px">
+  <strong>Jump to:</strong>
+  {% for s in sections %}<a href="#lang-{{ s.lang }}">{{ s.name }}</a> · {% endfor %}<a href="#lang-all">Both languages combined</a>
+</div>
+{% endif %}
+{% for s in sections %}
+{% set ranked = s.r.cells.items()|selectattr('1.' ~ metric)|sort(attribute='1.' ~ metric, reverse=true)|list %}
+<div class="card" id="lang-{{ s.lang }}" style="padding:12px 16px 4px">
+  <h2 style="margin:0 0 4px">{{ s.name }} articles</h2>
+  {% if ranked %}{% set best_key, best = ranked[0] %}
+  <p style="margin:0 0 4px">
+    Best {{ metric_label }} in {{ s.name }}: <strong>{{ best_key[2] }} · {{ best_key[1] }} · {{ (tasks|selectattr(0, 'equalto', best_key[0])|first)[1] }}</strong>
+    = <strong>{{ pct(best[metric]) }}</strong> <span class="muted">({% if best.n_repeats > 1 %}mean of {{ best.n_repeats }} runs: {% endif %}{{ num(best.tp) }} of {{ num(best.tp + best.fn) }} violations caught, {{ num(best.fp) }} false alarm{{ '' if best.fp == 1 else 's' }})</span>
+    {% set ties = ranked[1:]|selectattr('1.' ~ metric, 'equalto', best[metric])|list %}
+    {% if ties %}<span class="muted">· tied with {% for k, _ in ties %}{{ k[2] }} · {{ k[1] }} · {{ (tasks|selectattr(0, 'equalto', k[0])|first)[1] }}{{ ', ' if not loop.last }}{% endfor %}</span>{% endif %}
+  </p>
+  {% endif %}
+  <p class="muted" style="margin:0 0 12px">
+    {{ s.r.common }} articles every task and prompt was run on: {{ s.r.yes }} violations, {{ s.r.no }} non-violations.
+    {% if s.lang == 'en' %}SinLlama only runs on Sinhala, so it has no English row. English non-violations are assumed (unreviewed), so precision and accuracy are approximate.{% endif %}
+  </p>
+  <h3 style="margin:0 0 8px">{{ metric_label }} per model, task and prompt · {{ s.name }}</h3>
+  {{ grid(s.r) }}
+  {% if s.scores %}<h3 style="margin:0 0 8px">{{ metric_label }} of the confidence scores · {{ s.name }}</h3>
+  {{ scores_grid(s.scores) }}{% endif %}
+  <h3 style="margin:0 0 8px">All metrics · {{ s.name }}</h3>
+  <p class="muted" style="margin:0 0 8px">Bold = best in the task for {{ s.name }}. <span class="rank">#1–#4</span> with a gold background = the overall top 4 approaches (the same in every section).
+    Hover a cell for TP / FP / TN / FN. <strong>Tasks agree</strong> = articles where the run's three tasks give the same answer.
+    The shaded rows at the bottom are the {{ model }} confidence scores.</p>
+  {{ all_metrics(s.r, s.scores) }}
+</div>
+{% endfor %}
+
+{% if not lang %}
+<details class="card" id="lang-all" style="padding:10px 16px">
+  <summary><strong>Both languages combined</strong> <span class="muted">— {{ r.common }} articles ({{ r.yes }} violations, {{ r.no }} non-violations)</span></summary>
+  <h3 style="margin:12px 0 8px">{{ metric_label }} per model, task and prompt</h3>
+  {{ grid(r) }}
+  {% if scores %}<h3 style="margin:0 0 8px">{{ metric_label }} of the confidence scores</h3>
+  {{ scores_grid(scores) }}{% endif %}
+  <h3 style="margin:0 0 8px">All metrics</h3>
+  {{ all_metrics(r, scores) }}
+</details>
+{% endif %}
+
+<div class="card" style="padding:10px 16px">
+  <form class="filters" method="get">
+    <strong>Articles</strong>
+    <input type="hidden" name="metric" value="{{ metric }}">
+    {% if lang %}<input type="hidden" name="lang" value="{{ lang }}">{% endif %}
+    <select name="show" onchange="this.form.submit()">
+      <option value="">All articles</option>
+      <option value="violations" {{ 'selected' if show == 'violations' }}>Violation articles</option>
+      <option value="non_violations" {{ 'selected' if show == 'non_violations' }}>Non-violation articles</option>
+      <option value="wrong" {{ 'selected' if show == 'wrong' }}>Some answer is wrong</option>
+      <option value="disagree" {{ 'selected' if show == 'disagree' }}>Tasks disagree within a run</option>
+    </select>
+    <span class="muted">
+      Each cell shows the three tasks: <strong>L</strong> = LLM results, <strong>R</strong> = rule detection, <strong>H</strong> = highlights ·
+      <span class="ans ok" style="min-width:0;padding:0 4px">✓</span> matches the review status,
+      <span class="ans bad" style="min-width:0;padding:0 4px">✗</span> doesn't{% if r.max_repeats > 1 %} in every run,
+      <span class="ans mixed" style="min-width:0;padding:0 4px">2/3</span> right in only some runs (filters use the majority answer){% endif %}
+      · showing {{ articles|length }} of {{ r.articles|length }}
+    </span>
+  </form>
+</div>
+<div style="overflow-x:auto">
+<table>
+  <thead>
+    <tr>
+      <th>Article</th><th>Lang</th><th>Expected</th>
+      {% for e, m in r.runs %}<th class="mono">{{ m }}<br><span class="muted">{{ e }}</span></th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in articles %}
+    <tr>
+      <td>
+        <a href="{{ url_for('article', article_id=a.article_id) }}">{{ a.heading or a.article_id }}</a>
+        <div class="mono muted">{{ a.article_id }}</div>
+      </td>
+      <td>{% if a.lang %}<span class="lang">{{ a.lang }}</span>{% else %}—{% endif %}</td>
+      <td><span class="badge {{ a.status }}" title="{{ a.status }}">{{ a.expected }}</span></td>
+      {% for e, m in r.runs %}
+        {% set c = r.answer_runs.get((a.article_id, e, m), {}) %}
+        <td style="white-space:nowrap">
+          {% if not c %}<span class="ans none" title="{{ 'SinLlama only runs on Sinhala articles' if 'sinllama' in m else 'not run' }}">—</span>
+          {% else %}
+            {% for task, label in tasks %}{% set vs = c.get(task) %}
+              {% if not vs %}<span class="ans none" style="min-width:0;padding:1px 4px" title="{{ label }}: not run">{{ task_short[task] }}</span>
+              {% else %}
+                {% set right = vs|select('equalto', a.expected)|list|length %}
+                {% set errors = vs|select('equalto', 'ERROR')|list|length %}
+                {% set cls = 'err' if errors == vs|length else ('ok' if right == vs|length else ('bad' if right == 0 else 'mixed')) %}
+                <span class="ans {{ cls }}" style="min-width:0;padding:1px 4px" title="{{ label }}: {{ vs|join(', ') }}">{{ task_short[task] }}{% if cls == 'mixed' %} {{ right }}/{{ vs|length }}{% endif %}</span>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endblock %}

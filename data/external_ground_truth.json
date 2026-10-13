@@ -1,0 +1,289 @@
+{
+  "_about": "Proposed ground truth for the external violations (data/external_violations.csv), written by reading each article against code_of_conduct/code_of_conduct.json. Every article is labelled a violation in the spreadsheet, and that label is kept. The spreadsheet's clause (e.g. 6.1) is mapped to the matching sub-rule; rules not in the given clause are marked given=false, and rules I'm not sure of best_guess=true. proposal: violation (rule clear) | best_guess (rule is my best guess) | rule_unknown (no rule found) | bad_data (the text isn't the article). All 28 were confirmed (violations.external_review); their rules and highlights are the ground truth in violations.manual_annotations.",
+  "ext-96ba5a13-6c64-5632-ad6b-89589f44f6a8": {
+    "proposal": "violation",
+    "notes": "Given clause 6.2. The accused is identified only through his relationship to the MP, and the alleged rape victim is described closely enough to be recognised.",
+    "rules": {
+      "6.2.iii": {"given": true, "reason": "Identifies a relative (MP Rishad Bathiudeen) of the person accused of rape.", "spans": [
+        {"part": "heading", "excerpt": "Rishad's brother-in-law"},
+        {"part": "content", "excerpt": "MP Rishad Bathiudeen’s brother-in-law"}]},
+      "6.2.i": {"given": true, "reason": "The alleged rape victim is identifiable: her age, home town and five years as a domestic aide at the MP's Colombo residence.", "spans": [
+        {"part": "content", "excerpt": "Another 29-year-old former female domestic worker"},
+        {"part": "content", "excerpt": "The alleged victim from Kelaniya"}]}
+    }
+  },
+  "ext-e7b3cd3d-0570-5819-b3b7-99c96b41f64d": {
+    "proposal": "violation",
+    "notes": "Given clause 6.1. Court testimony, but the headline and opening dwell on the bomber's remains.",
+    "rules": {
+      "6.1.a": {"given": true, "reason": "Graphic, sensational description of body parts, led by the headline.", "spans": [
+        {"part": "heading", "excerpt": "Female suicide bomber's torso hanging from a tree"},
+        {"part": "content", "excerpt": "was hanging from a nearby tree sans her feet, which were in another place"},
+        {"part": "content", "excerpt": "the other body parts of the female bomber were scattered around"}]}
+    }
+  },
+  "ext-7ce6fba2-422e-57c0-ba4d-dc814f4e9dd3": {
+    "proposal": "violation",
+    "notes": "Given clause 6.1, with the excerpt on the order of the killings. 7.4 added for the grieving 12-year-old daughter.",
+    "rules": {
+      "6.1.b": {"given": true, "reason": "Step-by-step account of the murders: order of the killings, the stabbing and the weapon.", "spans": [
+        {"part": "content", "excerpt": "On the night of the murders, he first killed Amarakoon, then deceived Wickramasinghe over the phone, claiming the disturbing sounds were from a horror film"},
+        {"part": "content", "excerpt": "He then proceeded upstairs and fatally stabbed Darshani and her four children"},
+        {"part": "content", "excerpt": "De-Zoysa attacked him, stabbing him multiple times"},
+        {"part": "content", "excerpt": "He had purchased a 38-centimetre hunting knife online weeks before the attack"}]},
+      "7.4": {"given": false, "reason": "Private grief of an identifiable child (the named victim's 12-year-old daughter).", "spans": [
+        {"part": "content", "excerpt": "His 12-year-old daughter described waking up crying and scared"}]}
+    }
+  },
+  "ext-5898db45-7a57-5129-9952-109283d839dc": {
+    "proposal": "violation",
+    "notes": "Given clauses 6.1 and 6.5: the murders (6.1.b) and the suicide (6.5).",
+    "rules": {
+      "6.1.b": {"given": true, "reason": "Excessive detail of the murders: throats slit, the number of cuts, and how the bodies were burnt.", "spans": [
+        {"part": "content", "excerpt": "the wife and daughter were killed by slitting their throats. There were six cuts on the wife’s neck and two cuts on the daughter’s neck"},
+        {"part": "content", "excerpt": "the wife’s throat had six stab injuries"},
+        {"part": "content", "excerpt": "He then placed the daughter’s body on the pile and poured kerosene and set it on fire"}]},
+      "6.5": {"given": true, "reason": "Gives the suicide method: jumping into the fire.", "spans": [
+        {"part": "content", "excerpt": "committed suicide by jumping into the same fire"},
+        {"part": "content", "excerpt": "it appears that the businessman committed suicide by jumping into the fire"}]}
+    }
+  },
+  "ext-50e172e3-19d2-52da-a2ba-2747fb77c8a5": {
+    "proposal": "violation",
+    "notes": "Given clause 6.1. The headline states an allegation as fact; the alleged rape victim is identifiable and her pregnancy and abortion dispute are published.",
+    "rules": {
+      "6.1.a": {"given": true, "reason": "Sensational headline that states the alleged rape as fact.", "spans": [
+        {"part": "heading", "excerpt": "Cops rape ex-soldier"}]},
+      "6.2.i": {"given": false, "reason": "The alleged rape victim is identifiable: regiment, home town and her lover's town.", "spans": [
+        {"part": "content", "excerpt": "The woman soldier attached to the Gajaba Regiment is a resident of Udugama in Galle"}]},
+      "7.1": {"given": false, "reason": "Private details of an identifiable woman: pregnancy and a dispute over an abortion.", "spans": [
+        {"part": "content", "excerpt": "her lover insisted she undergo an abortion after she told him she was pregnant"}]}
+    }
+  },
+  "ext-d67d9de3-de8e-57c1-9cbe-856894b5d108": {
+    "proposal": "violation",
+    "notes": "Given clause 6.1 (the excerpt is about naming the suspect, which on its own breaks no rule). The victim is identifiable from her post, hospital, age and residence.",
+    "rules": {
+      "6.2.i": {"given": false, "reason": "The rape victim is identifiable: a 32-year-old doctor training as a specialist at the Anuradhapura Teaching Hospital, attacked at her official residence.", "spans": [
+        {"part": "content", "excerpt": "the rape of a female doctor training as a specialist at the Anuradhapura Teaching Hospital"},
+        {"part": "content", "excerpt": "the 32-year-old doctor, after finishing her duties, was ambushed by the suspect at her official residence"}]},
+      "6.1.a": {"given": true, "reason": "Describes the assault itself.", "spans": [
+        {"part": "content", "excerpt": "He threatened her with a knife, restrained her, and forcibly raped her"}]}
+    }
+  },
+  "ext-31ff1bb5-87f2-5566-8a1f-1889564f596f": {
+    "proposal": "violation",
+    "notes": "Given clauses 6.1 and 6.5. 7.1 added for the family details of the named student.",
+    "rules": {
+      "6.5": {"given": true, "reason": "Detailed suicide method: the firearm, where he shot himself, the locked room and how he got the gun.", "spans": [
+        {"part": "content", "excerpt": "by shooting himself in the mouth, using a firearm at home"},
+        {"part": "content", "excerpt": "shot himself inside his room after locking himself up"},
+        {"part": "content", "excerpt": "the student had managed to somehow find the licensed firearm belonging to his father which had been kept hidden"}]},
+      "6.1.a": {"given": true, "reason": "Graphic description of the wound.", "spans": [
+        {"part": "content", "excerpt": "The back of his head was severely wounded from the gunshot"}]},
+      "7.1": {"given": false, "reason": "Private family details of the named student: parents' and siblings' jobs and workplaces.", "spans": [
+        {"part": "content", "excerpt": "His mother is a teacher and his father a retired officer of the Wildlife Department"},
+        {"part": "content", "excerpt": "His only elder brother is a lecturer at the Peradeniya University and his only sister is a trainee doctor at the Kurunegala Teaching Hospital"}]}
+    }
+  },
+  "ext-cce92f99-5728-50d0-8cfc-25938d3adf8a": {
+    "proposal": "violation",
+    "notes": "Given clause 6.1. Graphic detail of the alleged sexual assault from court documents.",
+    "rules": {
+      "6.1.a": {"given": true, "reason": "Graphic detail of an alleged sexual assault, starting in the headline.", "spans": [
+        {"part": "heading", "excerpt": "Danushka choked and raped woman"},
+        {"part": "content", "excerpt": "allegedly choking her three times - once for up to 30 seconds"},
+        {"part": "content", "excerpt": "is also accused of taking off a condom during sex with the woman"}]}
+    }
+  },
+  "ext-9ea9ea4d-1d71-530d-99eb-17d8370b3965": {
+    "proposal": "violation",
+    "notes": "Given clause 6.1: method of the child's murder.",
+    "rules": {
+      "6.1.b": {"given": true, "reason": "Step-by-step account of how the child was killed.", "spans": [
+        {"part": "content", "excerpt": "the suspect had caught her and dragged her into a nearby shrub jungle"},
+        {"part": "content", "excerpt": "a piece of cloth had been stuffed into the little girl’s mouth before she had been dragged a few metres further into a nearby swamp"},
+        {"part": "content", "excerpt": "The suspect had pushed the face of the child into the muddy water to ensure that she was dead, he had knelt on the childs back"}]}
+    }
+  },
+  "ext-f9fd3242-6888-5f92-88ec-a40130d52eda": {
+    "proposal": "violation",
+    "notes": "Given clause 6.5. The spreadsheet had the wrong text (a copy of the Kottu maker murder article); this is the real article from the URL (data/external_corrections.json). It describes how the monk drowned himself, and his state of mind.",
+    "rules": {
+      "6.5": {"given": true, "reason": "Gives the suicide method: rope and a stone tied to his leg, found in the lagoon, alive when he went into the water.", "spans": [
+        {"part": "content", "excerpt": "the piece of rope and the stone found tied to one of his legs"},
+        {"part": "content", "excerpt": "his body was fished out of the Ratgama lagoon"},
+        {"part": "content", "excerpt": "The autopsy also revealed there was no sand in his lungs, which indicated that he had been alive at the time he was in the lagoon"}]},
+      "7.1": {"given": false, "best_guess": true, "reason": "The named monk's mental health (morbid fear, disturbed state of mind).", "spans": [
+        {"part": "content", "excerpt": "the bhikku lived in morbid fear of the possibility of contracting Covid-19"},
+        {"part": "content", "excerpt": "the bhikku was in a disturbed state of mind after the Covid-19 outbreak"}]}
+    }
+  },
+  "ext-5126880f-a4eb-5bc5-bbc6-d3a34f195e10": {
+    "proposal": "violation",
+    "notes": "Given clauses 6.1 and 6.2 (i). The 16-year-old is named while the article reports she was sexually abused.",
+    "rules": {
+      "6.2.i": {"given": true, "reason": "Names a child victim of sexual abuse.", "spans": [
+        {"part": "heading", "excerpt": "Ishalini's death"},
+        {"part": "content", "excerpt": "16-year-old Jude Kumar Ishalini"},
+        {"part": "content", "excerpt": "Ishalini had been subjected to sexual abuse for a long period of time"}]},
+      "6.1.b": {"given": true, "reason": "Speculates on how she may have been killed (burnt with gas elsewhere and moved).", "spans": [
+        {"part": "content", "excerpt": "whether Ishalini had been burnt using gas at a separate place and later brought to her room"}]}
+    }
+  },
+  "ext-e640e280-bfd7-587d-aba7-79a67edde90a": {
+    "proposal": "violation",
+    "notes": "No clause given. Scanned feature (garbled OCR) on the rape and murder of a 17-year-old.",
+    "rules": {
+      "6.2.i": {"given": false, "reason": "Names the rape victim in full, with her village and her mother's name.", "spans": [
+        {"part": "content", "excerpt": "Ekanyayaka Hudiyasegala Sandya Madushani Ekanyayaka (Sandya) aged 17 years old, who lived in the village of Salpaya Akshapura"},
+        {"part": "content", "excerpt": "Her mother, R. M. Seelawathi"}]},
+      "6.1.a": {"given": false, "reason": "Graphic, sensational description of the victim's injuries and the attacker.", "spans": [
+        {"part": "content", "excerpt": "there were various scratch marks all over her. Her upper lip contained bite marks of the man who had viciously raped her"},
+        {"part": "content", "excerpt": "the degenerate through his evil eyes saw her as a mere object of his desire"}]},
+      "2.5": {"given": false, "reason": "The writer's own judgement written as news, treating the suspect as guilty while police are yet to confirm it.", "spans": [
+        {"part": "content", "excerpt": "Death came to her as this man fulfilled his barbaric actions"}]}
+    }
+  },
+  "ext-30bc1336-8ab4-588c-895c-0d1f59426ce3": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. Most likely 6.5: it names what the prisoners drank to die, if that was deliberate (the article doesn't say).",
+    "rules": {
+      "6.5": {"given": false, "best_guess": true, "reason": "Names the substance used (sanitiser), if the deaths were self-inflicted.", "spans": [
+        {"part": "content", "excerpt": "died after consuming sanitiser"}]}
+    }
+  },
+  "ext-ed6dc26c-d826-593e-8175-b958c7178a9e": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause or headline given (scanned page, garbled text). Most likely 6.1.a for the 'brutally hacked' killing of an 83-year-old.",
+    "rules": {
+      "6.1.a": {"given": false, "best_guess": true, "reason": "Sensational wording about the killing of an elderly woman.", "spans": [
+        {"part": "content", "excerpt": "was brutally hacked by the killers"}]}
+    }
+  },
+  "ext-5ee9ae32-2d7a-57da-b8f3-41ceed840566": {
+    "proposal": "violation",
+    "notes": "No clause given. The suspect is identified through his relationship to the President.",
+    "rules": {
+      "6.2.iii": {"given": false, "reason": "Identifies a relative (President Maithripala Sirisena) of the person arrested on suspicion of killing.", "spans": [
+        {"part": "content", "excerpt": "A brother of President Maithripala Sirisena has been arrested"}]}
+    }
+  },
+  "ext-ad1386a7-951e-5f9d-9cef-c5480cce916c": {
+    "proposal": "violation",
+    "notes": "No clause given (garbled text). Sensational headline and an alleged affair of the named victim.",
+    "rules": {
+      "6.1.a": {"given": false, "reason": "Sensational headline built on the alleged affair.", "spans": [
+        {"part": "heading", "excerpt": "Clandestine affair with professor leads to brutal killing of nurse"}]},
+      "7.1": {"given": false, "reason": "Publishes an alleged illicit affair of the named, identifiable victim.", "spans": [
+        {"part": "content", "excerpt": "had allegedly developed an illicit affair over a period of time with another nurse working in the same hospital"}]}
+    }
+  },
+  "ext-4852eebd-4445-551e-9cd1-5abc978a03c1": {
+    "proposal": "violation",
+    "notes": "No clause given (garbled text). A sexually abused child is named with school and village.",
+    "rules": {
+      "6.2.i": {"given": false, "reason": "Identifies a child victim of sexual abuse by name, school and village.", "spans": [
+        {"part": "content", "excerpt": "Nandun K. K. P. K. a year eight student of the Government Mahinda Vidyalaya school and a resident of Kottegoda in Puttalam"}]},
+      "7.4": {"given": false, "reason": "An identifiable child, with school and home.", "spans": [
+        {"part": "content", "excerpt": "a year eight student of the Government Mahinda Vidyalaya school"}]}
+    }
+  },
+  "ext-c5954ced-1d09-5e99-bc46-86b8d1735779": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given (garbled text). Most likely 6.2.iii: it names two Moonasinghes in connection with a bank theft case without saying they are accused.",
+    "rules": {
+      "6.2.iii": {"given": false, "best_guess": true, "reason": "Names people (apparently relatives) linked to suspects in a theft case.", "spans": [
+        {"part": "content", "excerpt": "Shaila Moonasinghe and Japan’s Nanumi Moonasinghe’s involvement"}]}
+    }
+  },
+  "ext-3b56b624-ea6b-5c20-93b9-942bafbb205b": {
+    "proposal": "violation",
+    "notes": "No clause given. The accused is identified through the Minister.",
+    "rules": {
+      "6.2.iii": {"given": false, "reason": "Identifies a relative (Minister Hakim Hashim) of the accused driver.", "spans": [
+        {"part": "heading", "excerpt": "Minister’s kinsman"},
+        {"part": "content", "excerpt": "brother-in-law of the Minister Hakim Hashim"}]}
+    }
+  },
+  "ext-39e5d009-2872-5baa-8d0a-04465aef4b18": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. Same story as the Daily News sanitiser report; most likely 6.5 for naming what they drank.",
+    "rules": {
+      "6.5": {"given": false, "best_guess": true, "reason": "Names the substance used (alcohol-based sanitiser), if the deaths were self-inflicted.", "spans": [
+        {"part": "content", "excerpt": "died yesterday by consuming an alcohol-based sanitiser"}]}
+    }
+  },
+  "ext-2b3e294e-6cf3-5c7c-b1e0-2f49352965dc": {
+    "proposal": "violation",
+    "notes": "No clause given. Suicide method in detail, a headline that treats the suicide as a success, and the man's letter to his daughter.",
+    "rules": {
+      "6.5": {"given": false, "reason": "Gives the suicide method (hanging, with his sarong) and earlier methods (poison, hanging).", "spans": [
+        {"part": "content", "excerpt": "had succeeded on the fifth by hanging himself in a house"},
+        {"part": "content", "excerpt": "the victim had tried to commit suicide by poisoning poison and had tried to hang himself on the other occasions"},
+        {"part": "content", "excerpt": "having used his sarong to tie him up"}]},
+      "6.1.a": {"given": false, "reason": "Headline treats a suicide as a success.", "spans": [
+        {"part": "heading", "excerpt": "Man succeeds in fifth suicide attempt"}]},
+      "7.1": {"given": false, "reason": "Discloses the named man's private letter to his daughter.", "spans": [
+        {"part": "content", "excerpt": "the victim had informed his daughter through a letter that he had decided to end his life by hanging"}]}
+    }
+  },
+  "ext-497ea03a-ae62-5a27-8426-53c485e85644": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. Third report of the sanitiser deaths; most likely 6.5 for naming what they drank.",
+    "rules": {
+      "6.5": {"given": false, "best_guess": true, "reason": "Names the substance used (a sanitising liquid), if the deaths were self-inflicted.", "spans": [
+        {"part": "content", "excerpt": "had died after consuming a sanitising liquid"}]}
+    }
+  },
+  "ext-17afb5cc-5326-5053-8706-e90bd76789c4": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. Most likely 7.1: the named soldier's relationship and the restricted area they entered.",
+    "rules": {
+      "7.1": {"given": false, "best_guess": true, "reason": "Discloses the private relationship of the named soldier with a female soldier.", "spans": [
+        {"part": "content", "excerpt": "his partner a female soldier escaped when they fell into the Kalawewa tank"}]}
+    }
+  },
+  "ext-60e517c2-5503-517f-ae55-38922a5b6a1d": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. One sentence; most likely 7.1 for describing the dead couple as lovers camping illegally.",
+    "rules": {
+      "7.1": {"given": false, "best_guess": true, "reason": "Private life of the dead couple (lovers, camping illegally).", "spans": [
+        {"part": "content", "excerpt": "A couple of young lovers who were illegally camping on a hillside"}]}
+    }
+  },
+  "ext-b346acd2-7ef1-5499-9376-8b7974573bd4": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. Two sentences; most likely 6.1.a for opening on the dead woman's 'motionless body'.",
+    "rules": {
+      "6.1.a": {"given": false, "best_guess": true, "reason": "Opens on the dead tourist's body, by name.", "spans": [
+        {"part": "content", "excerpt": "The motionless body of Munk was found near the rock"}]}
+    }
+  },
+  "ext-0d9293cc-81e1-5efe-bf10-30da23d91c2e": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. Most likely 7.4: the dead child is named, with his temple duty and funeral.",
+    "rules": {
+      "7.4": {"given": false, "best_guess": true, "reason": "Names a nine-year-old with details of his life and funeral.", "spans": [
+        {"part": "content", "excerpt": "A nine-year-old boy named Waththu Yashan Jayasuriya"},
+        {"part": "content", "excerpt": "Waththu's funeral took place at Thalikiriyanaya Crematorium yesterday"}]}
+    }
+  },
+  "ext-a6c487d6-c358-55c5-beeb-42da6ed9852e": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. A Coast Guard rescue report; most likely 7.4: children (an 11-year-old girl, a 16-year-old) described by age and home town after a near-drowning.",
+    "rules": {
+      "7.4": {"given": false, "best_guess": true, "reason": "Children identifiable by age and town (Balapitiya) in a report of their near-drowning.", "spans": [
+        {"part": "content", "excerpt": "another two males (42 years and 16 years) and an 11-year-old girl from Balapitiya"}]}
+    }
+  },
+  "ext-a0dfdacd-6401-5066-aca5-f8b2d21a3ca5": {
+    "proposal": "best_guess",
+    "notes": "Labelled a violation; no clause given. A signed opinion column on the PTA, with pieces of other columns from the scanned page. Most likely 2.5: contested claims stated as plain fact.",
+    "rules": {
+      "2.5": {"given": false, "best_guess": true, "reason": "Conjecture and opinion written as established fact.", "spans": [
+        {"part": "content", "excerpt": "The truth is, in the rationale is Sri Lanka underwent terrorism, civil war, and a divided regime"},
+        {"part": "content", "excerpt": "without the said Act we will not be able to defeat the terrorists, nor we will achieve freedom"}]}
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"article_id": "019efb98-e0d1-71bd-89b7-d7908d274dab", "experiment": "zero_shot", "provider": "gemini", "model": "gemini-3.5-flash", "expected": "YES", "article_status": "REVIEWED_VIOLATION", "error": null, "answer": "NO", "raw_output": "NO", "created_at": "2026-09-28T06:38:17.955579+00:00"}
