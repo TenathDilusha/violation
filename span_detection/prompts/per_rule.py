@@ -1,6 +1,6 @@
 """Rule-based span detection: a verdict for every rule, with the exact excerpts that break it.
 
-Same verdicts and evidence rules as llm/prompts/per_rule.py; instead of one
+Same verdicts and evidence rules as binary_detection/prompts/per_rule.py; instead of one
 evidence sentence each flagged rule lists short exact excerpts:
     {"rules": {"<rule_id>": {"verdict": "...", "excerpts": ["..."], "explanation": "..."}},
      "violation": "YES|NO"}
@@ -9,7 +9,7 @@ first in each rule so OpenAI token probabilities give P(violation) per rule
 (token_confidence).
 
 SinLlama: the rules are flagged with the calibrated single-rule YES/NO prompts
-(llm/sinllama.py per_rule, build_rule); then for each flagged rule every
+(binary_detection/sinllama.py per_rule, build_rule); then for each flagged rule every
 sentence is scored with rule_sentence_prefix() + RULE_SENTENCE_QUESTION.
 """
 
@@ -17,11 +17,11 @@ from __future__ import annotations
 
 import json
 
-from llm.prompts.per_rule import (  # noqa: F401
+from binary_detection.prompts.per_rule import (  # noqa: F401
     CONTEXT, EVIDENCE_SUFFIX, POSITIVE_VERDICTS, RULE_IDS, VERDICT_GUIDE, VERDICTS,
     _load, build_rule, token_confidence,
 )
-from llm.prompts.zero_shot import CODE, DEFINITIONS
+from binary_detection.prompts.zero_shot import CODE, DEFINITIONS
 from span_detection.prompts.zero_shot import EXCERPT_RULES, USER, _fields, article_block
 
 NAME = "per_rule"

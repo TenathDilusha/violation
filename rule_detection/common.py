@@ -1,6 +1,6 @@
 """Shared runner for rule detection (run_openai.py, run_gemini.py, run_sinllama.py).
 
-Articles and CLI options are the same as llm/ (violation snapshot + --negatives N
+Articles and CLI options are the same as binary_detection/ (violation snapshot + --negatives N
 non-violation articles). Each result is appended to
 rule_detection/outputs/<experiment>_<provider>_<model>_<timestamp>.jsonl and
 upserted into violations.rule_predictions.
@@ -23,7 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from db import expected_answer, fetch_rule_predictions, upsert_rule_predictions  # noqa: E402
-from llm.common import experiment_name, load_articles, parse_args  # noqa: E402,F401
+from binary_detection.common import experiment_name, load_articles, parse_args  # noqa: E402,F401
 
 OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"
 

@@ -1,7 +1,4 @@
 .env
 .venv/
 __pycache__/
-
-# Exported from the database by extract.py / import_external.py
-data/*.csv
-data/violation_articles.json
+*/outputs/

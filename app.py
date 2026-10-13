@@ -12,13 +12,13 @@ from flask import Flask, abort, redirect, render_template, request, url_for
 from markupsafe import Markup, escape
 
 import db
-from db import SCHEMA, fetch_article, fetch_manual_annotations, fetch_violation_articles
+from db import OWN_SCHEMA, fetch_article, fetch_manual_annotations, fetch_snapshot_articles
 from evaluation import compare as compare_eval
 from evaluation import confidence as confidence_eval
 from evaluation import scores as scores_eval
 from evaluation import stats
 from evaluation import vote as vote_eval
-from llm.prompts.zero_shot import CODE
+from binary_detection.prompts.zero_shot import CODE
 from span_detection.locate import locate, located
 from span_detection.review import load_review, reviewed_spans
 
@@ -105,7 +105,7 @@ def index():
 
 @app.get("/article/<article_id>")
 def article(article_id: str):
-    articles = fetch_violation_articles()
+    articles = fetch_snapshot_articles()
     ids = [a["article_id"] for a in articles]
     predictions = [p for p in fetch_predictions() if p["article_id"] == article_id]
     if article_id in ids:
@@ -136,7 +136,7 @@ def article(article_id: str):
     spans = _evidence_spans(content, rule_predictions + detection_spans)
     return render_template(
         "article.html",
-        schema=SCHEMA,
+        schema=OWN_SCHEMA,
         a=a,
         predictions=predictions,
         rule_predictions=rule_predictions,
@@ -215,7 +215,7 @@ def compare_tasks():
 
     return render_template(
         "compare.html",
-        schema=SCHEMA,
+        schema=OWN_SCHEMA,
         tasks=compare_eval.TASKS,
         metrics=compare_eval.METRICS,
         metric=metric,
@@ -505,7 +505,7 @@ def overview():
     arts = main["articles"]
     return render_template(
         "overview.html",
-        schema=SCHEMA,
+        schema=OWN_SCHEMA,
         model=BEST_MODEL,
         main=main,
         langs={code: sum(1 for a in arts if a["lang"] == code) for code, _ in LANGUAGES},
@@ -713,7 +713,7 @@ def best_model():
     lang = {a["article_id"]: a["lang"] for a in main["articles"]}
     return render_template(
         "best_model.html",
-        schema=SCHEMA,
+        schema=OWN_SCHEMA,
         model=BEST_MODEL,
         best=best,
         about=about,

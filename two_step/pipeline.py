@@ -13,8 +13,8 @@ from __future__ import annotations
 
 from typing import Callable
 
-from llm.prompts.per_rule import _load
-from llm.prompts.zero_shot import CODE
+from binary_detection.prompts.per_rule import _load
+from binary_detection.prompts.zero_shot import CODE
 from span_detection.common import locate_spans
 from span_detection.prompts.zero_shot import _rule_id
 from two_step.prompts import assign_messages, codes_messages, locate_messages, passages_messages

@@ -6,7 +6,7 @@ zero_shot / few_shot: the prompt ends in "Broken rule:" and every rule_id plus
 the offending sentence, kept only if it matches a sentence of the article.
 
 per_rule: every rule is scored in its own YES/NO prompt, calibrated against an
-empty article (see llm/sinllama.py, --margin).
+empty article (see binary_detection/sinllama.py, --margin).
 
     PYTHONPATH=~/anish_project/.python_pkgs ~/anish_project/venv/bin/python rule_detection/run_sinllama.py --prompt zero_shot --negatives 30
 """
@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from llm.sinllama import SinLlama, add_arguments, snap_to_sentence  # noqa: E402
+from binary_detection.sinllama import SinLlama, add_arguments, snap_to_sentence  # noqa: E402
 from rule_detection.common import load_prompt, parse_args, run  # noqa: E402
 
 

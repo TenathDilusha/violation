@@ -17,7 +17,7 @@ import math
 import random
 from statistics import mean
 
-from llm.metrics import BETA
+from binary_detection.metrics import BETA
 
 B = 1000
 SEED = 0

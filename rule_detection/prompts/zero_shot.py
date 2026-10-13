@@ -15,8 +15,8 @@ from __future__ import annotations
 import json
 import re
 
-from llm.prompts.per_rule import _load
-from llm.prompts.zero_shot import CODE, DEFINITIONS
+from binary_detection.prompts.per_rule import _load
+from binary_detection.prompts.zero_shot import CODE, DEFINITIONS
 
 NAME = "zero_shot"
 JSON_OUTPUT = True

@@ -1,6 +1,6 @@
 """Confidence scores: P(YES) from gpt-4.1's answer-token logprobs instead of its YES/NO answer.
 
-llm/run_openai.py stores P(YES) / (P(YES) + P(NO)) in llm_predictions.confidence
+binary_detection/run_openai.py stores P(YES) / (P(YES) + P(NO)) in llm_predictions.confidence
 (per_rule: the highest P(VIOLATION) over the rules). A score is the mean of that
 over a prompt's repeats, or over several prompts; an article is a violation when
 its score is at least a threshold.

@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from db import expected_answer, fetch_span_predictions, upsert_span_predictions  # noqa: E402
-from llm.common import load_articles, parse_args  # noqa: E402
+from binary_detection.common import load_articles, parse_args  # noqa: E402
 from two_step import pipeline  # noqa: E402
 from two_step.prompts import EXCLUDE_IDS  # noqa: E402
 

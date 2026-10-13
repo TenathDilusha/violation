@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run every task (llm, rule_detection, span_detection) × prompt (zero_shot, few_shot, per_rule) for one provider.
+# Run every task (binary_detection, rule_detection, span_detection) × prompt (zero_shot, few_shot, per_rule) for one provider.
 #
 #   ./run_all.sh openai|gemini|sinllama [extra args, e.g. --force --workers 6 --repeat 2 --code-lang si --lang si]
 #
@@ -16,7 +16,7 @@ else
   python=(.venv/bin/python)
 fi
 
-for task in llm rule_detection span_detection; do
+for task in binary_detection rule_detection span_detection; do
   for prompt in zero_shot few_shot per_rule; do
     echo "=== $task · $prompt · $provider"
     "${python[@]}" "$task/run_$provider.py" --prompt "$prompt" --negatives 30 "$@"

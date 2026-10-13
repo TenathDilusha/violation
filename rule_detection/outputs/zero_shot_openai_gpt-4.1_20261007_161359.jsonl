@@ -1,1 +1,0 @@
-{"article_id": "01a011b2-e7e2-7bad-b5c5-5df0bfa86b07", "experiment": "zero_shot", "provider": "openai", "model": "gpt-4.1", "expected": "NO", "article_status": "REVIEWED_NON_VIOLATION", "rules": [], "rule_ids": [], "raw_output": "{\"violated_rules\": []}", "error": null, "details": null, "created_at": "2026-10-07T10:44:00.815512+00:00"}

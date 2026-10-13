@@ -18,7 +18,7 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 
-from llm.metrics import summarize
+from binary_detection.metrics import summarize
 from span_detection.locate import located
 
 REPEAT = re.compile(r"^(?P<prompt>.+)\.r(?P<n>\d+)$")

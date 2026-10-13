@@ -1,0 +1,107 @@
+article_id,lang,source,status,expected,correct_rules,heading
+019f01f4-9112-7878-8e98-789eede9b810,si,platform,DECIDED_CRITICAL,YES,7.1;6.1.b,භෞත චිකිත්සකවරියගේ මරණය - පෙම්වතාට ආධාර අනුබලදුන් පොලිස් ලොක්කෙකු දැලේ
+019f0216-f77a-7f1b-a30e-5275befa5e03,en,platform,DECIDED_CRITICAL,YES,2.5,Decision on cancelling Ven. Rajangane Saddharathana Thera’s bail postponed
+019fa06e-912d-7f88-b70d-acf96477dcf8,si,platform,DECIDED_CRITICAL,YES,6.1.b;2.5,අපරාද රැසකට සම්බන්ධ යුද සෙබලෙක් මාට්ටු
+019fafb5-ffeb-70b8-91e7-2ad6dd516c7d,si,platform,DECIDED_CRITICAL,YES,6.1.b,ජීවිතයක් බිලිගත් පවුල් ආරවුල
+01a016e0-57a2-71ff-a149-3df99fd7f424,si,platform,DECIDED_CRITICAL,YES,6.1.b;6.1.a,කුලී යතුරුපැදි කරු මැරූ සැකකරු රිමාන්ඩ්
+019f0200-c917-7df4-80cb-a3da156c1a8c,en,platform,DECIDED_NON_CRITICAL,YES,2.2.a;2.5,"Trade Ministry seeks closer collaboration with retailers, says Minister"
+019f1a5a-d74c-70c3-86df-1b731ba1badd,si,platform,DECIDED_NON_CRITICAL,YES,2.5,මාර්ග අනතුරුවලට ප්‍රධානතම හේතුව තරුණ රියදුරන්ගේ අපරික්ෂාකාරි බවයි
+019f1a6e-2b13-7bdb-91db-9926a0b00a5b,si,platform,DECIDED_NON_CRITICAL,YES,2.5, මාර්ග අනතුරුවලට ප්‍රධානතම හේතුව තරුණ රියදුරන්ගේ අපරික්ෂාකාරි බවයි
+019f43b8-4560-752a-b093-aae02c2a75ac,si,platform,DECIDED_NON_CRITICAL,YES,6.1.b;6.1.a,කතක මැරුවාට අටක් පෝරකයට
+019fafb5-18ee-7849-85e9-8d95b0f2c910,si,platform,DECIDED_NON_CRITICAL,YES,2.2.b,නීතිඥ සංගමයේ විශේෂ මහා සභා රැස්වීම ඇරඹෙයි
+01a011b9-3545-797a-b30c-e4116124cd29,si,platform,DECIDED_NON_CRITICAL,YES,7.4,කොළඹ මහල් නිවෙසකින් දරුවෙක් බිමට වැටී මරුට
+ext-0d9293cc-81e1-5efe-bf10-30da23d91c2e,en,external,EXTERNAL_VIOLATION,YES,7.4,Nine-year-old killed on pedestrain crossing
+ext-17afb5cc-5326-5053-8706-e90bd76789c4,en,external,EXTERNAL_VIOLATION,YES,7.1,Army Lance Corporal drowns in Kalawewa
+ext-2b3e294e-6cf3-5c7c-b1e0-2f49352965dc,en,external,EXTERNAL_VIOLATION,YES,6.1.a;6.5;7.1,Man succeeds in fifth suicide attempt
+ext-30bc1336-8ab4-588c-895c-0d1f59426ce3,en,external,EXTERNAL_VIOLATION,YES,6.5,"Iranians consume sanitizer, two dead"
+ext-31ff1bb5-87f2-5566-8a1f-1889564f596f,en,external,EXTERNAL_VIOLATION,YES,6.1.a;6.5;7.1,A/L student (18) commits suicide
+ext-39e5d009-2872-5baa-8d0a-04465aef4b18,en,external,EXTERNAL_VIOLATION,YES,6.5,Iranian drug suspects die after consuming sanitiser.
+ext-3b56b624-ea6b-5c20-93b9-942bafbb205b,en,external,EXTERNAL_VIOLATION,YES,6.2.iii,Minister’s kinsman remanded over road drama.
+ext-4852eebd-4445-551e-9cd1-5abc978a03c1,en,external,EXTERNAL_VIOLATION,YES,6.2.i;7.4,BODY OF SEXUALLY ABUSED TEENAGER RECOVERED
+ext-497ea03a-ae62-5a27-8426-53c485e85644,en,external,EXTERNAL_VIOLATION,YES,6.5,Two Iranian prisoners die after consuming sanitising liquid
+ext-50e172e3-19d2-52da-a2ba-2747fb77c8a5,en,external,EXTERNAL_VIOLATION,YES,6.1.a;6.2.i;7.1,Cops rape ex-soldier
+ext-5126880f-a4eb-5bc5-bbc6-d3a34f195e10,en,external,EXTERNAL_VIOLATION,YES,6.1.b;6.2.i,Bathiudeen named suspect in Ishalini's death from mysterious burn injuries
+ext-5898db45-7a57-5129-9952-109283d839dc,en,external,EXTERNAL_VIOLATION,YES,6.1.b;6.5,"Father kills wife and daughter, then commits suicide"
+ext-5ee9ae32-2d7a-57da-b8f3-41ceed840566,en,external,EXTERNAL_VIOLATION,YES,6.2.iii,ACCIDENT IN POLONNARUWA CLAIMS TWO LIVES
+ext-60e517c2-5503-517f-ae55-38922a5b6a1d,en,external,EXTERNAL_VIOLATION,YES,7.1,Lovers electrocuted by live wire in cinnamon plantation
+ext-7ce6fba2-422e-57c0-ba4d-dc814f4e9dd3,en,external,EXTERNAL_VIOLATION,YES,6.1.b;7.4,Sri Lankan Youth Sentenced to Life for Ottawa Mass Murder
+ext-96ba5a13-6c64-5632-ad6b-89589f44f6a8,en,external,EXTERNAL_VIOLATION,YES,6.2.i;6.2.iii,Another former domestic accuses Rishad's brother-in-law of rape.
+ext-9ea9ea4d-1d71-530d-99eb-17d8370b3965,en,external,EXTERNAL_VIOLATION,YES,6.1.b,Kottu maker reveals schocking truth about nine-year-old girl's murder.
+ext-a0dfdacd-6401-5066-aca5-f8b2d21a3ca5,en,external,EXTERNAL_VIOLATION,YES,2.5,PTA Balancing Conflictig Interests
+ext-a6c487d6-c358-55c5-beeb-42da6ed9852e,en,external,EXTERNAL_VIOLATION,YES,7.4,Three saved from drowning
+ext-ad1386a7-951e-5f9d-9cef-c5480cce916c,en,external,EXTERNAL_VIOLATION,YES,6.1.a;7.1,Clandestine affair with professor leads to brutal killing of nurse
+ext-b346acd2-7ef1-5499-9376-8b7974573bd4,en,external,EXTERNAL_VIOLATION,YES,6.1.a,Missing Danish tourist found fallen from Algalla rock
+ext-c5954ced-1d09-5e99-bc46-86b8d1735779,en,external,EXTERNAL_VIOLATION,YES,6.2.iii,British HC not in touch with Taiwan bank robbery suspects
+ext-cce92f99-5728-50d0-8cfc-25938d3adf8a,en,external,EXTERNAL_VIOLATION,YES,6.1.a,"Danushka choked and raped woman, court documents allege"
+ext-d67d9de3-de8e-57c1-9cbe-856894b5d108,en,external,EXTERNAL_VIOLATION,YES,6.1.a;6.2.i,Identitiy of Anuradhapura rape suspect revealed
+ext-e640e280-bfd7-587d-aba7-79a67edde90a,en,external,EXTERNAL_VIOLATION,YES,2.5;6.1.a;6.2.i,A TRAGEDY MOST HEINOUS
+ext-e7b3cd3d-0570-5819-b3b7-99c96b41f64d,en,external,EXTERNAL_VIOLATION,YES,6.1.a,Female suicide bomber's torso hanging from a tree
+ext-ed6dc26c-d826-593e-8175-b958c7178a9e,en,external,EXTERNAL_VIOLATION,YES,,
+ext-f9fd3242-6888-5f92-88ec-a40130d52eda,en,external,EXTERNAL_VIOLATION,YES,6.5;7.1,Govt. analyst's findings reveal Dutch monk committed suicide
+019efb98-e0d1-71bd-89b7-d7908d274dab,en,platform,REVIEWED_VIOLATION,YES,2.2.a;2.5,Rubio kicks off Middle East trip as allies seek answers on Iran
+019f01ee-ce48-7026-b4e0-28a287085d56,si,platform,REVIEWED_VIOLATION,YES,6.2.iii;2.2.a,රඛිත රාජපක්ෂ සහ චරිත් අබේසිංහ අල්ලස් කොමිසමෙන් අත්අඩංගුවට
+019f01ff-b34e-70e3-baca-61259bf1246e,si,platform,REVIEWED_VIOLATION,YES,6.2.iii;7.4,භෞත චිකිත්සකවරියගේ මරණය - සැකකරුවන් රඳවාගෙන ප්‍රශ්න කිරීමට අවසර
+019f021b-0c3d-766b-941b-9551ebbae7e2,en,platform,REVIEWED_VIOLATION,YES,2.5;2.2.a,Welcome change for school admissions
+019f3e91-3efc-71a4-b5a1-56a15c12202e,si,platform,REVIEWED_VIOLATION,YES,2.5,නාමල්ගෙන් සජිත්ට ලිපියක්
+019f6290-aa5a-705b-86a3-c370eeb1ec0a,si,platform,REVIEWED_VIOLATION,YES,2.5;6.1.c,බිරිය නීතිඥවරියක් කරන්න සැමියා කුඩු විකුණලා
+019f6292-d32d-78c0-930f-d6650d9f72f1,si,platform,REVIEWED_VIOLATION,YES,6.1.b;6.1.a;2.5;7.1,මවයි - පියයි මරා නිරයට ගිය පුතා
+019f8bd4-21f3-7671-8320-7dac2284ac17,si,platform,REVIEWED_VIOLATION,YES,6.1.b,බෙල්ල කපා මැරුවාට එල්ලන්න නියම වෙයි
+019abf59-e62d-7689-b061-8703198ca027,en,platform,ASSUMED_NON_VIOLATION,NO,,Sri Lanka’s external sector strengthens as overseas workers drive surge in remittances
+019add80-d938-7b20-bf73-59514fd53874,en,platform,ASSUMED_NON_VIOLATION,NO,,Medical Sector: GMOA pauses disputes with Government
+019ae389-9852-7a8e-b199-1e64c2407f33,en,platform,ASSUMED_NON_VIOLATION,NO,,Dawoodi Bohra community donates Rs. 10 mn to Sri Lanka Cyclone relief
+019e6521-6a48-7eb4-8b8c-19af4173a9ef,en,platform,ASSUMED_NON_VIOLATION,NO,,Former Minister Wimal Weerawansa arrested
+019e652b-9044-754f-b6bc-7c8029cdabf0,en,platform,ASSUMED_NON_VIOLATION,NO,,Coastal clean-up drive launched in Jaffna under Clean Sri Lanka programme
+019e7939-fd93-77f2-9f6f-415fbfe9f680,en,platform,ASSUMED_NON_VIOLATION,NO,,PM highlights Sri Lanka’s commitment to global economic engagement
+019e8a49-584a-775d-8254-6e193a056776,en,platform,ASSUMED_NON_VIOLATION,NO,,"PM calls for transformative education reforms to combat inequality, AI challenges"
+019ea400-a227-7013-a005-b5aba256fbff,en,platform,ASSUMED_NON_VIOLATION,NO,,Huge crowds throng Madrid streets for Pope’s open-air mass
+019eae79-ec96-7806-a9ae-7cc699f3df5e,en,platform,ASSUMED_NON_VIOLATION,NO,,Fairly heavy showers forecast for several areas today
+019edccb-1f49-727b-b1d1-05951cee8e73,en,platform,ASSUMED_NON_VIOLATION,NO,,Men's Mental Health Awareness Month: Seeking support 
+019eec23-5d97-78c5-833b-f45be8d39f88,en,platform,ASSUMED_NON_VIOLATION,NO,,"Europe swelters under heatwave, France restricts alcohol consumption"
+019ef648-ff9c-7c9e-ae97-5c19e3660e65,en,platform,ASSUMED_NON_VIOLATION,NO,,Special Ministerial Sub-Committee and Officers’ Committee to counter El Niño impact | Sri Lanka News | Ada Derana | Truth First
+019f48d0-1b05-7567-b128-fa5f5776063f,en,platform,ASSUMED_NON_VIOLATION,NO,,Former Minister Jagath arrested in CIABOC case gets bail
+019f8175-03cd-79b9-9995-58abb9f36d19,en,platform,ASSUMED_NON_VIOLATION,NO,,Lanka’s export sector targets 8%-10% growth in 2026- EDB Chairman
+019fa076-ce35-7fba-8389-f6c1961edfcf,en,platform,ASSUMED_NON_VIOLATION,NO,,T-bill yields extend decline
+019fa733-4ec3-74e5-b154-59a070fb6074,en,platform,ASSUMED_NON_VIOLATION,NO,,New animal welfare Bill gazetted
+019fd3d1-3fc2-77d8-9ec3-d3df8fee65b9,en,platform,ASSUMED_NON_VIOLATION,NO,,Sri Lankan Rupee strengthens slightly against US Dollar
+019fd8f9-b437-72b4-89e0-91eb044a71eb,en,platform,ASSUMED_NON_VIOLATION,NO,,China’s super-rich ‘in shock’ and hunting for cash as Beijing issues surprise tax on offshore trusts
+019fde1a-5071-7a82-8802-088d487aa1f9,en,platform,ASSUMED_NON_VIOLATION,NO,,Judges retirement age extension: Bill gazetted
+019feda8-46f9-743f-8f29-fe480b550b61,en,platform,ASSUMED_NON_VIOLATION,NO,,Battery storage projects at 16 substations near completion
+019ff2d0-bc95-7530-a108-f560f7c7d14b,en,platform,ASSUMED_NON_VIOLATION,NO,,Two suppliers selected for Norochcholai coal procurement
+019ff2d1-b156-7a69-ad75-406923a90b6a,en,platform,ASSUMED_NON_VIOLATION,NO,,SOC discusses drug rehab process 
+01a016ca-986d-79c8-a258-f7ef18e5d49e,en,platform,ASSUMED_NON_VIOLATION,NO,,"JXG posts Rs.6.4bn revenue in maiden results post-CSE listing, amid global headwinds"
+01a02654-51f1-75e8-b7f3-4ae997b7ddd6,en,platform,ASSUMED_NON_VIOLATION,NO,,Namal appears before Police FCID
+01a0640e-4a86-7700-8e7e-cbbea0daa913,en,platform,ASSUMED_NON_VIOLATION,NO,,Richmond-champions of Cambrian Cricket Sixes
+01a06e57-5afa-748b-9718-b0a0d48a9de8,en,platform,ASSUMED_NON_VIOLATION,NO,,Bribery Commission arrests Namal after five-hour questioning
+01a078a8-a6b1-77ff-8226-2f3607c81ee5,en,platform,ASSUMED_NON_VIOLATION,NO,,Croc may have been dragging away murdered youth
+01a07de1-0ba4-7ab6-9d7a-ab495215f938,en,platform,ASSUMED_NON_VIOLATION,NO,,Five arrested for illegal excavation of artifacts in Hingurakgoda
+01a0c0bc-f04e-7d2f-8f82-35a25bc0a490,en,platform,ASSUMED_NON_VIOLATION,NO,,Fuel price revision possible at end of September
+01a0cb8c-71ef-7944-844c-47025fb9960d,en,platform,ASSUMED_NON_VIOLATION,NO,,Cabinet approves joint management framework for Dr Nevil Fernando Hospital
+019f3948-3c21-790e-ac7b-1fd85eb30a46,si,platform,REVIEWED_NON_VIOLATION,NO,,2026 වසරේ මුල් මාස හයේ බදු ආදායම බිලියන 1373ක් 
+019f3948-d3c1-72de-8b81-e2137968d0f0,si,platform,REVIEWED_NON_VIOLATION,NO,, හිරුණිකාගේ ඇපෑල විභාගයට දින දෙයි
+019f4399-172b-7996-b6b0-f0a08bb4f2d3,si,platform,REVIEWED_NON_VIOLATION,NO,,මහනුවර ඇසළ පෙරහැර මංගල්‍යයේ කප් සිටුවීම අගෝස්තු 13
+019f4399-c0fc-7bdc-9c69-60324c06ca13,si,platform,REVIEWED_NON_VIOLATION,NO,,මීගමුවෙන් අඟුණුකොළපැලැස්සට ගිය රැඳවියෙකුත් මරුට
+019f5d79-f8ec-7971-b1f9-7964ab0bde67,si,platform,REVIEWED_NON_VIOLATION,NO,,කොළඹ විද්‍යා පීඨයේ ඉගෙනුම් “ඔන්ලයින්” ක්‍රමයට
+019f8bd4-498d-7395-82a2-12facacd07e4,si,platform,REVIEWED_NON_VIOLATION,NO,,ඩෙංගු නඩුවෙන් චිලී වැරදිකරු වෙයි
+019fa06b-0dee-7d51-8d38-842b4ebe2ee1,si,platform,REVIEWED_NON_VIOLATION,NO,,"විනිසුරු හිඟයෙන් නඩු 40,000 ක් මහාධිකරණවල හිරවෙලා"
+019fa06d-8187-77dc-8174-751d60cdfa18,si,platform,REVIEWED_NON_VIOLATION,NO,,ප්‍රධාන පොලිස් පරික්ෂකත් වැරදි ගොඩක් කරලා
+019fa6d1-b932-7c1d-9867-9b8611e44a4e,si,platform,REVIEWED_NON_VIOLATION,NO,,චිලී රාජ්‍යයට ප්‍රබල භූකම්පනයක් 
+019fa72b-36cf-70b0-bd10-d2ddedcedf12,si,platform,REVIEWED_NON_VIOLATION,NO,,ඩිවොල්කා නෝවා ස්විච් ස්විච් සොකට්වලට SLSI ප්‍රමිති සහතික
+019fb4e6-cd6d-789f-9719-7a0b6853a7de,si,platform,REVIEWED_NON_VIOLATION,NO,,පාලිත බණ්ඩාර ශ්‍රී ලංකාව රිදී පදක්කමෙන් සරසයි
+019fb4f8-2719-7d40-9e49-b7f9b23cf4c4,si,platform,REVIEWED_NON_VIOLATION,NO,,අවන්හලේ කලබල කළ සැරයන් දෙදෙනා ඇතුළු තිදෙනකුට වසර නවයක සිරදඬුවම්
+019fbf3c-35a7-7f6c-8477-9c1dcbc446fc,si,platform,REVIEWED_NON_VIOLATION,NO,,නව යුද හමුදාපති ලුතිනන් ජෙනරල් නිලන්ත ප්‍රේමරත්න අද වැඩ භාර ගනී
+019fbf3f-8310-75d7-a1c2-eb65c2a632b6,si,platform,REVIEWED_NON_VIOLATION,NO,,ඔඩපණ ණය අරන් වී මිලදී නොගන්නා අය බ්ලැක් ලිස්ට් – ලාල්කාන්ත අනතුරු අඟවයි
+019fbf41-4c8e-75cc-9592-883cfeb9762e,si,platform,REVIEWED_NON_VIOLATION,NO,,රත්මලානේ වෙඩි තැබීමකින් අයෙක් මරුට
+019fc628-fda9-7c2f-9876-5ccd7a893eb9,si,platform,REVIEWED_NON_VIOLATION,NO,,බුම්රාට ශ්‍රී ලංකා ටෙස්ට් තරගාවලිය අහිමි වෙයි
+019fc62b-2a5d-72f3-acbe-bbbdbde413ba,si,platform,REVIEWED_NON_VIOLATION,NO,,මහර බන්ධනාගාරයේ ඇති වූ ගැටුමෙන් සිදු වූ හානිය රුපියල් කෝටි 15ක්
+019fc62e-e550-75d8-bb1e-0c783d843fa1,si,platform,REVIEWED_NON_VIOLATION,NO,,මහර බන්ධනාගාර ගැටුමට හේතුව අධික තදබදය බවට සිරකරු අයිතිවාසිකම් සුරැකීමේ කමිටුවෙන් චෝදනා
+019fc631-9b64-7f79-a4b3-95a5abb407e3,si,platform,REVIEWED_NON_VIOLATION,NO,,බන්ධනාගාර පද්ධතිය ප්‍රතිසංස්කරණය කිරිමට කටයුතු කළ යුතුයි
+019fc64c-f684-7bb8-acc9-7fb1b7a0880f,si,platform,REVIEWED_NON_VIOLATION,NO,,‘‘ඉරානයට යළි ප්‍රහාර එල්ල කරන්නේ නෑ‘‘
+019fc64e-0cbb-7ff4-b32a-7ae9c8c9fe44,si,platform,REVIEWED_NON_VIOLATION,NO,,බන්ධනාගාර පද්ධතිය ප්‍රතිසංස්කරණය කිරිමට කටයුතු කළ යුතුයි
+01a00de6-4c86-71cc-9928-b3d76d074c34,si,platform,REVIEWED_NON_VIOLATION,NO,,රු. මි. 134ක වියදමින් කළුතර ශික්ෂණ රෝහල නවීකරණය කෙරේ
+01a01197-8571-744c-acbf-1d2063e5dacc,si,platform,REVIEWED_NON_VIOLATION,NO,,ජාතික නිවාස සංවර්ධන අධිකාරියේ සාමාන්‍යාධිකාරීවරයා අනිවාර්ය නිවාඩු යවයි
+01a011b9-d545-798a-91b9-5f308e0808ee,si,platform,REVIEWED_NON_VIOLATION,NO,,විදුලි ත්‍රිරෝද රථ ආවොත් ඉන්ධන වියදම ඩො.මි. 500කින් අඩු වේවි‍ UNDP
+01a011ba-ef0b-7150-a649-1220499cc7f0,si,platform,REVIEWED_NON_VIOLATION,NO,,ලංකාවෙන් සියයට 81ක් තොරතුරු දැනගන්න AI භාවිත කරනවාලු‍
+01a016be-e549-7ec0-9ecb-9d26001d59ce,si,platform,REVIEWED_NON_VIOLATION,NO,,හඳුන් දිවි පැටව් මහජන ප්‍රදර්ශනයට -  නම් දුන් අයටත් තෑගි
+01a016e4-9f7d-732b-a248-f92a2882eeca,si,platform,REVIEWED_NON_VIOLATION,NO,,වාහන අංක තහඩු ලක්‍ෂ 5 ක් තවමත් කොටඋඩ
+01a02136-bf79-7a42-bca1-33b79477aaff,si,platform,REVIEWED_NON_VIOLATION,NO,,2026 ලෝක ආහාර දින තරුණ නවෝත්පාදන අභියෝගතා තරඟාවලිය අරඹයි
+01a035c2-4f7b-76f4-9b25-90fdb2a1f509,si,platform,REVIEWED_NON_VIOLATION,NO,,ජාතික ඉතිරිකිරීමේ බැංකුවේ ගිරිඋල්ල ශාඛාව නව පරිශ්‍රයකදී විවෘත වේ

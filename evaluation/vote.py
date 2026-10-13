@@ -7,7 +7,7 @@ articles every selected run answered are scored.
 
 from __future__ import annotations
 
-from llm.metrics import BETA
+from binary_detection.metrics import BETA
 
 MODEL = "gpt-4.1"
 SELECTIONS = [

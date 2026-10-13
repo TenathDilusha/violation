@@ -24,7 +24,7 @@ run() {
 
 if [[ "$provider" == "openai" ]]; then
   for r in 1 2 3; do
-    for task in llm rule_detection span_detection; do
+    for task in binary_detection rule_detection span_detection; do
       for prompt in zero_shot few_shot per_rule; do
         run "$task/run_openai.py" --prompt "$prompt" --repeat "$r"
         run "$task/run_openai.py" --prompt "$prompt" --repeat "$r" --code-lang si --lang si
@@ -36,7 +36,7 @@ if [[ "$provider" == "openai" ]]; then
   done
   run two_step/run.py
 elif [[ "$provider" == "gemini" ]]; then
-  for task in llm rule_detection span_detection; do
+  for task in binary_detection rule_detection span_detection; do
     for prompt in zero_shot few_shot per_rule; do
       run "$task/run_gemini.py" --prompt "$prompt"
     done

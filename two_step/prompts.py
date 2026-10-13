@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import json
 
-from llm.prompts.zero_shot import CODE, DEFINITIONS
+from binary_detection.prompts.zero_shot import CODE, DEFINITIONS
 from span_detection.prompts import few_shot as span_few_shot
 from span_detection.prompts.zero_shot import EXCERPT_RULES, USER, _fields
 

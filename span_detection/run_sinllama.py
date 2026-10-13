@@ -11,7 +11,7 @@ zero_shot / few_shot: every sentence is asked "Does this sentence break a rule?"
 for a highlighted sentence the rule is the most likely rule_id after "Broken rule:".
 
 per_rule: the rules are flagged with the calibrated single-rule prompts
-(llm/sinllama.py per_rule); for each flagged rule the sentence that most raises
+(binary_detection/sinllama.py per_rule); for each flagged rule the sentence that most raises
 P(YES) for "Does this sentence break rule X?" is highlighted.
 
     PYTHONPATH=~/anish_project/.python_pkgs ~/anish_project/venv/bin/python span_detection/run_sinllama.py --prompt zero_shot --negatives 30
@@ -27,7 +27,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from llm.sinllama import SinLlama, add_arguments, logit  # noqa: E402
+from binary_detection.sinllama import SinLlama, add_arguments, logit  # noqa: E402
 from span_detection.common import load_prompt, parse_args, run  # noqa: E402
 from span_detection.locate import sentences  # noqa: E402
 

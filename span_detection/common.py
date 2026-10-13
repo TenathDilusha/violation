@@ -1,6 +1,6 @@
 """Shared runner for span detection (run_openai.py, run_gemini.py, run_sinllama.py).
 
-Articles and CLI options are the same as llm/ (violation snapshot + --negatives N
+Articles and CLI options are the same as binary_detection/ (violation snapshot + --negatives N
 non-violation articles). Every excerpt the model returns is located in the
 article text or heading (locate.py) and stored with its character offsets. Each result is
 appended to span_detection/outputs/<experiment>_<provider>_<model>_<timestamp>.jsonl
@@ -24,7 +24,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from db import expected_answer, fetch_span_predictions, upsert_span_predictions  # noqa: E402
-from llm.common import experiment_name, load_articles, parse_args  # noqa: E402,F401
+from binary_detection.common import experiment_name, load_articles, parse_args  # noqa: E402,F401
 from span_detection.locate import locate  # noqa: E402
 
 OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"

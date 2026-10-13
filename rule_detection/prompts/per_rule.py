@@ -1,4 +1,4 @@
-"""Rule-based detection: the per-rule checklist from llm/prompts/per_rule.py.
+"""Rule-based detection: the per-rule checklist from binary_detection/prompts/per_rule.py.
 
 Every rule gets a verdict (VIOLATION / NO_VIOLATION) with an evidence quote;
 the broken rules are those with VIOLATION.
@@ -9,7 +9,7 @@ an empty article.
 
 from __future__ import annotations
 
-from llm.prompts.per_rule import (  # noqa: F401
+from binary_detection.prompts.per_rule import (  # noqa: F401
     EVIDENCE_SUFFIX,
     JSON_OUTPUT,
     MAX_OUTPUT_TOKENS,
